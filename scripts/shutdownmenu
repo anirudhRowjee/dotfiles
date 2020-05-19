@@ -1,0 +1,7 @@
+yad --center --borders=20 \
+    --title="Shutdown options" \
+    --button="👋 Exit i3":"i3-msg exit" \
+    --button="🔒 Lock":"i3lock -f  -i Pictures/wallpapers/lock.png" \
+    --button="🍵 Suspend":"systemctl suspend" \
+    --button="🌙 Hibernate":"systemctl hibernate" \
+    --button="🛑 Shutdown":"shutdown -h now"
