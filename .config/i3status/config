@@ -1,0 +1,57 @@
+general {
+		output_format = "i3bar"
+		colors = true
+		interval = 5
+		separator = '|'
+}
+
+order += "volume master"
+order += "ethernet eth0"
+order += "wireless wlp3s0"
+order += "battery 0"
+order += "tztime local"
+
+wireless wlp3s0 {
+		format_up = "W: (%quality at %essid, %bitrate) %ip"
+		format_down = "W: down"
+}
+
+ethernet eth0 {
+		format_up = "E: %ip (%speed)"
+		format_down = "E: down"
+}
+
+battery 0 {
+		format = "%status %percentage REM %remaining TIM %emptytime"
+		format_down = "No battery"
+		status_chr = "⚡ CHR"
+		status_bat = "🔋 BAT"
+		status_unk = "? UNK"
+		status_full = "☻ FULL"
+		path = "/sys/class/power_supply/BAT%d/uevent"
+		low_threshold = 10
+}
+
+tztime local {
+		format = "🕑  %Y-%m-%d %H:%M:%S"
+        align = "center"
+}
+
+load {
+		format = "%5min"
+}
+
+volume master {
+        format = "🕪 : %volume"
+        format_muted = "🕨 : muted (%volume)"
+        device = "default"
+        mixer = "Master"
+        mixer_idx = 0
+}
+
+
+#  this is comment
+#  DejaVuSansMono Nerd Font Mono
+
+
+#; vim:ft=dosini
