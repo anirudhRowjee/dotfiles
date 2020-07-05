@@ -5,5 +5,5 @@ import sys
 
 console = Console()
 with open(sys.argv[1]) as readme:
-    markdown = Markdown(readme.read())
+	markdown = Markdown(readme.read())
 console.print(markdown)
