@@ -119,13 +119,15 @@ fi
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 set -o vi
+alias mp3down="youtube-dl --extract-audio --audio-format mp3 -o '%(title)s.%(ext)s'"
 alias actenv="source env/bin/activate"
 alias makenv="virtualenv --python=python3 env"
 alias readmd="clear && $HOME/scripts/mdreader.py"
 alias greet="fortune | cowsay | lolcat"
 alias filezf="fzf --layout reverse --info inline --border  --preview 'pygmentize -f terminal {}' --preview-window right:60%:noborder --color 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#223344,border:#778899'"
 alias noteman="./scripts/noteman.py"
-# alias zathura="zathura -c .config/zathura/"
+alias dcrt="docker-compose run app sh -c 'python manage.py test'"
+alias zathura="zathura -c .config/zathura/"
 
 # camera toggle
 alias camtoggle="pkill -f /dev/video0 || mpv --geometry=-0-0 --autofit=30% /dev/video0"
@@ -135,3 +137,18 @@ alias camtoggle="pkill -f /dev/video0 || mpv --geometry=-0-0 --autofit=30% /dev/
 
 # fzf ripgrep
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+
+
+export CC="clang"
+export CFLAGS="-fsanitize=signed-integer-overflow -fsanitize=undefined -ggdb3 -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow"
+export LDLIBS="-lcrypt -lcs50 -lm"
+export PATH=$PATH:/home/$USER/chomper/bin
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+export LANG=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
+
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+

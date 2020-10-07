@@ -34,3 +34,4 @@ rofi.drun-match-fields:              name,generic,exec,categories
 rofi.click-to-exit:                  true
 rofi.theme        :                  DarkBlue
 rofi.theme: /usr/share/rofi/themes/gruvbox-dark-hard.rasi
+

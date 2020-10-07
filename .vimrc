@@ -29,12 +29,18 @@ Plug 'sheerun/vim-polyglot'
 " framework support
 Plug 'mattn/emmet-vim'
 Plug 'rust-lang/rust.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'SirVer/ultisnips'
+Plug 'mlaursen/vim-react-snippets'
 " colors
 Plug 'morhetz/gruvbox'
 Plug 'anirudhRowjee/gruvbox-black'
 Plug 'jdsimcoe/hyper.vim'
 Plug 'sainnhe/sonokai'
 Plug 'hdima/python-syntax'
+Plug 'franbach/miramare'
+Plug 'bluz71/vim-moonfly-colors'
 " LaTeX setup
 Plug 'vim-latex/vim-latex'
 " UML diagram support
@@ -330,7 +336,7 @@ autocmd BufEnter *.tex set textwidth=80
 " UML diagram PNG rendering
 autocmd BufNewFile *.puml 0r ~/skeletons/er.puml
 autocmd BufEnter *.puml map <leader>vi :! plantuml -tpng % && eog %:r.png &<CR>
-autocmd BufWritePost *.puml normal \vi<CR>
+autocmd BufWritePost *.puml normal ]vi<CR>
 
 " vim-latex config
 let g:Tex_ViewRule_pdf = 'zathura'
@@ -372,3 +378,18 @@ set listchars=tab:\|\
 
 nnoremap <leader>fl :call SetIndentLine()<CR>
 autocmd BufEnter,BufNewFile,BufRead *.py set tabstop=4 shiftwidth=4 textwidth=79 expandtab autoindent fileformat=unix 
+
+" set fzf colors to local colorscheme colors
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
