@@ -17,35 +17,26 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-surround'
 Plug 'junegunn/goyo.vim'
-Plug 'machakann/vim-highlightedyank'
 Plug 'junegunn/fzf',{ 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'dense-analysis/ale'
 Plug 'tpope/vim-fugitive'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 " Autocomplete and syntax highlighting
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'sheerun/vim-polyglot'
 " framework support
 Plug 'mattn/emmet-vim'
-Plug 'rust-lang/rust.vim'
-Plug 'pangloss/vim-javascript'
-Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'SirVer/ultisnips'
 Plug 'mlaursen/vim-react-snippets'
 " colors
-Plug 'morhetz/gruvbox'
-Plug 'anirudhRowjee/gruvbox-black'
-Plug 'jdsimcoe/hyper.vim'
-Plug 'sainnhe/sonokai'
-Plug 'hdima/python-syntax'
-Plug 'franbach/miramare'
-Plug 'bluz71/vim-moonfly-colors'
+Plug 'anirudhrowjee/gruvbox-black'
+Plug 'ghifarit53/tokyonight-vim'
+Plug 'nlknguyen/papercolor-theme'
+Plug 'svjunic/radicalgoodspeed.vim'
 " LaTeX setup
 Plug 'vim-latex/vim-latex'
 " UML diagram support
 Plug 'aklt/plantuml-syntax'
-Plug 'davinche/DrawIt'
 Plug 'ryanoasis/vim-devicons'
 call plug#end()
 "-------------------------------------------"
@@ -68,6 +59,8 @@ set expandtab
 set ts=4 shiftwidth=4
 
 " mouse
+set mouse+=a
+set ttyfast
 
 " Always display the status line
 set laststatus=2
@@ -81,14 +74,8 @@ let g:elite_mode=1
 " airline config
 let g:airline_powerline_fonts = 1
 let g:airline_theme_background='dark'
-let g:airline_theme='gruvbox'
+let g:airline_theme='ayu_dark'
 let g:airline#extensions#hunks#enabled=1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_tabs = 1
-let g:airline#extensions#tabline#show_buffers = 1
-
-" autopairs config
-" let g:AutoPairsShortcutToggle = '\'
 
 " Theme and Styling 
 set t_Co=256
@@ -145,53 +132,6 @@ function! Term()
     set autochdir!
 endfunction  
 
-function! Tdm()
-    " function to toggle between gruvbox and gruvbox_black
-    if g:colors_name == 'gruvbox'
-        let g:airline_theme_background='dark'
-        let g:airline_theme='hyper'
-        set background=dark
-        colorscheme gruvbox_black
-        hi signcolumn none
-        set nocursorline
-    else
-        let g:airline_theme_background='dark'
-        let g:airline_theme='gruvbox'
-        set background=dark
-        colorscheme gruvbox
-        hi signcolumn none
-        set nocursorline
-    endif
-    AirlineRefresh
-endfunction
-
-function! Tlm()
-    " function to toggle between gruvbox light and dark
-    if g:gbcurrent == 'light'
-        set background=dark
-        let g:gruvbox_contrast_dark='hard'
-        let g:airline_theme_background='dark'
-        let g:airline_theme='gruvbox'
-        colorscheme gruvbox
-        hi signcolumn none
-        set nocursorline
-        let g:gbcurrent = 'dark'
-    else
-        set background=light
-        let g:gruvbox_contrast_light='hard'
-        let g:airline_theme_background='light'
-        let g:airline_theme='gruvbox'
-        colorscheme gruvbox
-        hi signcolumn none
-        set cursorline
-        let g:gbcurrent = 'light'
-    endif
-    AirlineRefresh
-endfunction
-
-
-set t_AB=^[[48;5;%dm
-set t_AF=^[[38;5;%dm
 
 " Disable arrow movement, resize splits instead.
 if get(g:, 'elite_mode')
@@ -263,7 +203,6 @@ nnoremap <leader>i3 :e ~/.config/i3/config<CR>
 nnoremap <leader>src :source $MYVIMRC<CR>
 nnoremap <leader>fi magg=G`a
 nnoremap <leader>g :Goyo<CR>
-nnoremap <leader>tt :call Tdm()<CR>
 nnoremap <leader>w :w<CR>
 
 " path for fuzzy find
@@ -291,7 +230,6 @@ autocmd CompleteDone * pclose
 autocmd BufRead *.c  map <F8> :w<CR>:!gcc % -o %< && ./%< <CR>
 autocmd BufRead *.cpp map <F8> :w<CR>:!clear && gcc % -o %<  -lstdc++ && ./%< <CR>
 autocmd BufNewFile *.cpp 0r ~/skeletons/skeleton.cpp
-map <F8> :w<CR>:!gcc % -o %<    -lstdc++ && ./%< <CR>
 
 " python specific buffer settings?
 autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
@@ -320,8 +258,8 @@ hi ALEError ctermbg=none cterm=underline term=underline
 let g:airline#extensions#ale#enabled = 1
 
 " Plugin Config - FZF
-nnoremap ]p :Files<CR>
-nnoremap ]b :BTags<CR>
+nnoremap <leader>p :Files<CR>
+nnoremap <leader>b :BTags<CR>
 
 "nnoremap <leader>fl :set noet|%ret!<CR>
 
@@ -371,10 +309,6 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 set nocursorline
 highlight clear SignColumn
 set signcolumn=yes
-set fillchars=vert:\|
-
-" indentline config
-set listchars=tab:\|\ 
 
 nnoremap <leader>fl :call SetIndentLine()<CR>
 autocmd BufEnter,BufNewFile,BufRead *.py set tabstop=4 shiftwidth=4 textwidth=79 expandtab autoindent fileformat=unix 
@@ -393,3 +327,6 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Keyword'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
+
+set ttimeoutlen=10
+"vim ft=vim;
