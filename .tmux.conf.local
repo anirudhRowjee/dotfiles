@@ -316,3 +316,4 @@ bind | split-window -h
 bind - split-window -v
 
 set -g default-shell /bin/zsh
+#vim ft=dosini;

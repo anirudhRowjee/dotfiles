@@ -33,5 +33,5 @@ rofi.drun-match-fields:              name,generic,exec,categories
 ! "Click outside the window to exit" Set from: Default
 rofi.click-to-exit:                  true
 rofi.theme        :                  DarkBlue
-rofi.theme: /usr/share/rofi/themes/gruvbox-dark-hard.rasi
 
+rofi.theme: /usr/share/rofi/themes/gruvbox-dark-hard.rasi

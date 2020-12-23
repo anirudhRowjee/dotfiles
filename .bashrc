@@ -125,9 +125,10 @@ alias makenv="virtualenv --python=python3 env"
 alias readmd="clear && $HOME/scripts/mdreader.py"
 alias greet="fortune | cowsay | lolcat"
 alias filezf="fzf --layout reverse --info inline --border  --preview 'pygmentize -f terminal {}' --preview-window right:60%:noborder --color 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#223344,border:#778899'"
-alias noteman="./scripts/noteman.py"
+alias noteman="./noteman.py"
 alias dcrt="docker-compose run app sh -c 'python manage.py test'"
 alias zathura="zathura -c .config/zathura/"
+alias zaread="./~/scripts/zaread"
 
 # camera toggle
 alias camtoggle="pkill -f /dev/video0 || mpv --geometry=-0-0 --autofit=30% /dev/video0"
@@ -139,9 +140,6 @@ alias camtoggle="pkill -f /dev/video0 || mpv --geometry=-0-0 --autofit=30% /dev/
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 
 
-export CC="clang"
-export CFLAGS="-fsanitize=signed-integer-overflow -fsanitize=undefined -ggdb3 -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow"
-export LDLIBS="-lcrypt -lcs50 -lm"
 export PATH=$PATH:/home/$USER/chomper/bin
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
@@ -152,3 +150,10 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
+export VISUAL=vim
+export EDITOR="$VISUAL"
+
+# rust
+export PATH="$HOME/.cargo/bin:$PATH"
+
+export LDLIBS="-lcrypt -lcs50 -lm"
