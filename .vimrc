@@ -30,12 +30,14 @@ Plug 'mlaursen/vim-react-snippets'
 Plug 'herringtonDarkholme/yats.vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'scrooloose/NERDTree'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 " colors
 Plug 'anirudhrowjee/gruvbox-black'
 Plug 'reewr/vim-monokai-phoenix'
 Plug 'sainnhe/sonokai'
 Plug 'lsdr/monokai'
-" Plug 'morhetz/gruvbox'
+Plug 'phanviet/vim-monokai-pro'
+Plug 'lifepillar/vim-gruvbox8'
 " LaTeX setup
 Plug 'vim-latex/vim-latex'
 " UML diagram support
@@ -74,7 +76,7 @@ let g:elite_mode=1
 " airline config
 let g:airline_powerline_fonts = 1
 let g:airline_theme_background='dark'
-let g:airline_theme='atomic'
+let g:airline_theme='deus'
 let g:airline#extensions#hunks#enabled=1
 " Theme and Styling 
 set t_Co=256
@@ -96,13 +98,11 @@ let g:gruvbox_improved_warnings='1'
 let g:gbcurrent = 'dark'
 
 "" Sonokai
-let g:sonokai_style='andromeda'
+let g:sonokai_style='atlantis'
 let g:sonokai_enable_italic=1
-let g:sonokai_enable_italic=1
-
 
 set background=dark
-colorscheme monokai-phoenix
+colorscheme sonokai
 
 " NetRW configuration
 let g:netrw_liststyle = 3
@@ -282,5 +282,9 @@ autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
 nmap <leader>i :CocCommand tsserver.organizeImports<cr>
 
 
-set ttimeoutlen=10
+" line number highlighting
+hi clear LineNr
+hi LineNr ctermfg=grey
+
+set ttimeoutlen=5
 "vim ft=vim;
