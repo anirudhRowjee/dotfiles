@@ -38,6 +38,7 @@ Plug 'sainnhe/sonokai'
 Plug 'lsdr/monokai'
 Plug 'phanviet/vim-monokai-pro'
 Plug 'lifepillar/vim-gruvbox8'
+Plug 'ayu-theme/ayu-vim'
 " LaTeX setup
 Plug 'vim-latex/vim-latex'
 " UML diagram support
@@ -76,7 +77,7 @@ let g:elite_mode=1
 " airline config
 let g:airline_powerline_fonts = 1
 let g:airline_theme_background='dark'
-let g:airline_theme='deus'
+let g:airline_theme='jet'
 let g:airline#extensions#hunks#enabled=1
 " Theme and Styling 
 set t_Co=256
@@ -100,6 +101,38 @@ let g:gbcurrent = 'dark'
 "" Sonokai
 let g:sonokai_style='atlantis'
 let g:sonokai_enable_italic=1
+
+"" Ayu
+let ayucolor="dark"
+
+
+"Add custom colors to sonokai
+function! s:sonokai_custom() abort
+  " Link a highlight group to a predefined highlight group.
+  " See `colors/sonokai.vim` for all predefined highlight groups.
+  " Initialize the color palette.
+  " The parameter is a valid value for `g:sonokai_style`,
+  let l:palette = sonokai#get_palette('atlantis')
+  " Define a highlight group.
+  " The first parameter is the name of a highlight group,
+  " the second parameter is the foreground color,
+  " the third parameter is the background color,
+  " the fourth parameter is for UI highlighting which is optional,
+  " and the last parameter is for `guisp` which is also optional.
+  " See `autoload/sonokai.vim` for the format of `l:palette`.
+  call sonokai#highlight('Normal', l:palette.fg, l:palette.black)
+  call sonokai#highlight('Terminal', l:palette.fg, l:palette.black)
+  call sonokai#highlight('EndOfBuffer', l:palette.bg0, l:palette.black)
+  call sonokai#highlight('Folded', l:palette.grey, l:palette.black)
+  call sonokai#highlight('ToolbarLine', l:palette.fg, l:palette.black)
+  call sonokai#highlight('SignColumn', l:palette.fg, l:palette.black)
+  call sonokai#highlight('FoldColumn', l:palette.grey, l:palette.black)
+endfunction
+
+augroup SonokaiCustom
+  autocmd!
+  autocmd ColorScheme sonokai call s:sonokai_custom()
+augroup END
 
 set background=dark
 colorscheme sonokai
