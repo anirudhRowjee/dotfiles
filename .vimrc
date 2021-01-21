@@ -229,11 +229,11 @@ autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
 autocmd BufEnter,BufRead *.js,*.vue,*.ts,*.html,*.css set tabstop=2 shiftwidth=2 foldmethod=syntax
 autocmd BufNewFile,BufRead *.vue set filetype=vue
 autocmd BufNewFile,BufRead,BufEnter *.md set wrap nolist linebreak
-autocmd BufNewFile,BufRead,BufEnter *.md nnoremap <leader>b :call StartMarkdownPreview()<CR>
+autocmd BufNewFile,BufRead,BufEnter *.md nnoremap <leader>b :MarkdownPreview<CR>
 
 " Plugin Config - ALE
 let g:ale_linters = {'python': ['autopep8'], 'javascript': ['eslint'],}
-let g:ale_fixers = {'python': ['black'], 'javascript': ['prettier']}
+let g:ale_fixers = {'python': ['black']}
 let g:ale_fix_on_save = 1
 let g:ale_python_executable='/usr/bin/python3'
 let g:ale_sign_error='✗'
