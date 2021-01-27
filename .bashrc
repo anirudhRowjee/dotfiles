@@ -129,6 +129,18 @@ alias noteman="./noteman.py"
 alias dcrt="docker-compose run app sh -c 'python manage.py test'"
 alias zathura="zathura -c .config/zathura/"
 alias zaread="./~/scripts/zaread"
+alias v="vim"
+alias nv="nvim"
+alias matlab="./matlab/bin/matlab"
+
+# aliases for currently hot directories
+alias gomath="cd ~/college/firstyear/UE20MA101/"
+alias gochem="cd ~/college/firstyear/UE20CY101/"
+alias gocs="cd ~/college/firstyear/UE20CS101/"
+alias goelec="cd ~/college/firstyear/UE20EC101/"
+alias gocivics="cd ~/college/firstyear/UE20CV101/"
+
+alias j="./scripts/dir-switcher.sh"
 
 # camera toggle
 alias camtoggle="pkill -f /dev/video0 || mpv --geometry=-0-0 --autofit=30% /dev/video0"
@@ -157,3 +169,11 @@ export EDITOR="$VISUAL"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 export LDLIBS="-lcrypt -lcs50 -lm"
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv 1>/dev/null 2>&1; then
+ eval "$(pyenv init -)"
+fi
+
+# cs50 stuff
+
