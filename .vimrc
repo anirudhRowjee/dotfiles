@@ -39,6 +39,7 @@ Plug 'lsdr/monokai'
 Plug 'phanviet/vim-monokai-pro'
 Plug 'lifepillar/vim-gruvbox8'
 Plug 'ayu-theme/ayu-vim'
+Plug 'atahabaki/archman-vim' 
 " LaTeX setup
 Plug 'vim-latex/vim-latex'
 " UML diagram support
@@ -170,6 +171,7 @@ let python_highlight_all = 1
 set foldlevel=99
 " map space to za (fold/unfold)
 nnoremap <space> za
+nnoremap <tab> <C-w>w
 " syntax marking for python (may not work)
 let python_highlight_all=1
 " set to system clipboard
@@ -320,4 +322,13 @@ hi clear LineNr
 hi LineNr ctermfg=grey
 
 set ttimeoutlen=5
+" This gets rid of the nasty _ italic bug in tpope's vim-markdown
+
+" block $$...$$
+syn region math start=/\$\$/ end=/\$\$/
+" inline math
+syn match math '\$[^$].\{-}\$'
+" actually highlight the region we defined as "math"
+hi link math Statement
+
 "vim ft=vim;
