@@ -52,7 +52,6 @@ set nocompatible
 syntax on
 set nowrap
 set encoding=UTF-8
-set mouse+=a
 
 " Show linenumbers
 set number
