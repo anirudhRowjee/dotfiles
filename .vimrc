@@ -77,7 +77,7 @@ let g:elite_mode=1
 " airline config
 let g:airline_powerline_fonts = 1
 let g:airline_theme_background='dark'
-let g:airline_theme='jet'
+let g:airline_theme='ayu_mirage'
 let g:airline#extensions#hunks#enabled=1
 " Theme and Styling 
 set t_Co=256
@@ -217,7 +217,7 @@ nnoremap gf :vertical wincmd f<CR>
 " omnicompletion settings
 autocmd CompleteDone * pclose
 " C/C++ compile rules
-autocmd BufRead *.c  map <F8> :w<CR>:!gcc % -o %< && ./%< <CR>
+autocmd BufRead *.c  map <F8> :w<CR>:!clear && gcc % -o %< && ./%< <CR>
 autocmd BufRead *.cpp map <F8> :w<CR>:!clear && gcc % -o %<  -lstdc++ && ./%< <CR>
 autocmd BufNewFile *.cpp 0r ~/skeletons/skeleton.cpp
 autocmd BufNewFile *.tex 0r ~/skeletons/skeleton.tex
