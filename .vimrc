@@ -31,8 +31,10 @@ Plug 'herringtonDarkholme/yats.vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'scrooloose/NERDTree'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'sjl/tslime.vim'
 " colors
 Plug 'anirudhrowjee/gruvbox-black'
+" Plug 'morhetz/gruvbox'
 Plug 'reewr/vim-monokai-phoenix'
 Plug 'sainnhe/sonokai'
 Plug 'lsdr/monokai'
@@ -40,6 +42,10 @@ Plug 'phanviet/vim-monokai-pro'
 Plug 'lifepillar/vim-gruvbox8'
 Plug 'ayu-theme/ayu-vim'
 Plug 'atahabaki/archman-vim' 
+Plug 'jgliner/stereokai2016.vim'
+Plug 'chuling/equinusocio-material.vim'
+Plug 'danilo-augusto/vim-afterglow'
+Plug 'kaicataldo/material.vim'
 " LaTeX setup
 Plug 'vim-latex/vim-latex'
 " UML diagram support
@@ -77,7 +83,7 @@ let g:elite_mode=1
 " airline config
 let g:airline_powerline_fonts = 1
 let g:airline_theme_background='dark'
-let g:airline_theme='ayu_mirage'
+let g:airline_theme='google_dark'
 let g:airline#extensions#hunks#enabled=1
 " Theme and Styling 
 set t_Co=256
@@ -99,14 +105,26 @@ let g:gruvbox_improved_warnings='1'
 let g:gbcurrent = 'dark'
 
 "" Sonokai
-let g:sonokai_style='atlantis'
+let g:sonokai_style='andromeda'
 let g:sonokai_enable_italic=1
 
-"" Ayu
+"" Equinusocio-Material
+let g:equinusocio_material_style = 'pure'
+
+" Vim-Afterglow
+let g:airline_them = 'afterglow'
+let g:afterglow_blackout=1 
+let g:afterglow_italic_comments=1
+
+" Ayu
 let ayucolor="dark"
 
+" Material
+let g:material_terminal_italics = 1
+let g:material_theme_style = 'ocean'
+colorscheme material
 
-"Add custom colors to sonokai
+" "Add custom colors to sonokai
 function! s:sonokai_custom() abort
   " Link a highlight group to a predefined highlight group.
   " See `colors/sonokai.vim` for all predefined highlight groups.
@@ -135,6 +153,7 @@ augroup SonokaiCustom
 augroup END
 
 set background=dark
+" colorscheme afterglow
 colorscheme sonokai
 
 " NetRW configuration
@@ -207,7 +226,7 @@ set path +=**
 " display all matching files
 set wildmenu
 " execute python file on pressing F5
-autocmd BufRead *.py map <F5> :w<CR>:exe ":!clear && python3 " . getreg("%") . "" <CR>
+autocmd BufRead *.py map <leader>c :w<CR>:exe ":!clear && python3 " . getreg("%") . "" <CR>
 " map ctrl-n to create new file and open in edit
 map <C-n> :call Cbdo()<CR> 
 " map ctrl-r to open terminal and file explorer
@@ -217,8 +236,8 @@ nnoremap gf :vertical wincmd f<CR>
 " omnicompletion settings
 autocmd CompleteDone * pclose
 " C/C++ compile rules
-autocmd BufRead *.c  map <F8> :w<CR>:!clear && gcc % -o %< && ./%< <CR>
-autocmd BufRead *.cpp map <F8> :w<CR>:!clear && gcc % -o %<  -lstdc++ && ./%< <CR>
+autocmd BufRead *.c  map <leader>c :w<CR>:!clear && gcc % -o %< && ./%< <CR>
+autocmd BufRead *.cpp map <leader>c :w<CR>:!clear && gcc % -o %<  -lstdc++ && ./%< <CR>
 autocmd BufNewFile *.cpp 0r ~/skeletons/skeleton.cpp
 autocmd BufNewFile *.tex 0r ~/skeletons/skeleton.tex
 " python specific buffer settings?
@@ -229,7 +248,7 @@ autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
 " web development stuff
 autocmd BufEnter,BufRead *.js,*.vue,*.ts,*.html,*.css set tabstop=2 shiftwidth=2 foldmethod=syntax
 autocmd BufNewFile,BufRead *.vue set filetype=vue
-autocmd BufNewFile,BufRead,BufEnter *.md set wrap nolist linebreak
+autocmd BufNewFile,BufRead,BufEnter *.md set wrap nolist linebreak colorcolumn=80
 autocmd BufNewFile,BufRead,BufEnter *.md nnoremap <leader>b :MarkdownPreview<CR>
 
 " Plugin Config - ALE
@@ -329,5 +348,18 @@ syn region math start=/\$\$/ end=/\$\$/
 syn match math '\$[^$].\{-}\$'
 " actually highlight the region we defined as "math"
 hi link math Statement
+
+" C Language settings
+autocmd BufNewFile *.c 0r ~/skeletons/skeleton.c
+
+" tslime {{{
+let g:tslime_ensure_trailing_newlines = 1
+let g:tslime_normal_mapping = '<leader>t'
+let g:tslime_visual_mapping = '<leader>t'
+let g:tslime_vars_mapping = '<leader>T'
+" }}}
+
+
+
 
 "vim ft=vim;
