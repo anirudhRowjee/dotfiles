@@ -43,7 +43,7 @@ esac
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
-#force_color_prompt=yes
+# force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
 	if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -85,7 +85,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
 alias ll='ls -alF'
@@ -123,7 +123,7 @@ alias mp3down="youtube-dl --extract-audio --audio-format mp3 -o '%(title)s.%(ext
 alias actenv="source env/bin/activate"
 alias makenv="virtualenv --python=python3 env"
 alias readmd="clear && $HOME/scripts/mdreader.py"
-alias greet="fortune | cowsay | lolcat"
+alias greet="clear && fortune | cowsay | lolcat"
 alias filezf="fzf --layout reverse --info inline --border  --preview 'pygmentize -f terminal {}' --preview-window right:60%:noborder --color 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#223344,border:#778899'"
 alias noteman="./noteman.py"
 alias dcrt="docker-compose run app sh -c 'python manage.py test'"
@@ -134,13 +134,15 @@ alias nv="nvim"
 alias matlab="./matlab/bin/matlab"
 
 # aliases for currently hot directories
-alias gomath="cd ~/college/firstyear/UE20MA101/"
-alias gochem="cd ~/college/firstyear/UE20CY101/"
-alias gocs="cd ~/college/firstyear/UE20CS101/"
-alias goelec="cd ~/college/firstyear/UE20EC101/"
-alias gocivics="cd ~/college/firstyear/UE20CV101/"
+alias gomath="cd ~/college/sem2/UE20MA151/"
+alias gophy="cd ~/college/sem2/UE20PH101/"
+alias gocs="cd ~/college/sem2/UE20CS151/"
+alias goelec="cd ~/college/sem2/UE20EE101/"
+alias gomech="cd ~/college/sem2/UE20ME101/"
+alias goclg="cd ~/college/sem2/"
 
 alias j="./scripts/dir-switcher.sh"
+alias p="python3"
 
 # camera toggle
 alias camtoggle="pkill -f /dev/video0 || mpv --geometry=-0-0 --autofit=30% /dev/video0"
@@ -168,12 +170,9 @@ export EDITOR="$VISUAL"
 # rust
 export PATH="$HOME/.cargo/bin:$PATH"
 
-export LDLIBS="-lcrypt -lcs50 -lm"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
  eval "$(pyenv init -)"
 fi
-
-# cs50 stuff
 
