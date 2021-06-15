@@ -13,39 +13,29 @@ call plug#begin('~/.vim/plugged')
 " GUI and UI plugins
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-surround'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/fzf',{ 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'dense-analysis/ale'
 Plug 'tpope/vim-fugitive'
-" Autocomplete and syntax highlighting
+" IDE Features
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'sheerun/vim-polyglot'
+Plug 'dense-analysis/ale'
+Plug 'zivyangll/git-blame.vim'
+Plug 'liuchengxu/vista.vim'
+Plug 'neomake/neomake'
 " framework support
 Plug 'mattn/emmet-vim'
 Plug 'SirVer/ultisnips'
 Plug 'mlaursen/vim-react-snippets'
 Plug 'herringtonDarkholme/yats.vim'
 Plug 'maxmellon/vim-jsx-pretty'
-Plug 'scrooloose/NERDTree'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'sjl/tslime.vim'
+Plug 'tweekmonster/django-plus.vim'
 " colors
-Plug 'anirudhrowjee/gruvbox-black'
-" Plug 'morhetz/gruvbox'
-Plug 'reewr/vim-monokai-phoenix'
 Plug 'sainnhe/sonokai'
-Plug 'lsdr/monokai'
-Plug 'phanviet/vim-monokai-pro'
-Plug 'lifepillar/vim-gruvbox8'
-Plug 'ayu-theme/ayu-vim'
-Plug 'atahabaki/archman-vim' 
-Plug 'jgliner/stereokai2016.vim'
-Plug 'chuling/equinusocio-material.vim'
-Plug 'danilo-augusto/vim-afterglow'
-Plug 'kaicataldo/material.vim'
 " LaTeX setup
 Plug 'vim-latex/vim-latex'
 " UML diagram support
@@ -71,7 +61,6 @@ set expandtab
 set re=1
 " Set Proper Tabs
 set ts=4 shiftwidth=4
-
 set ttyfast
 
 " Always display the status line
@@ -122,7 +111,6 @@ let ayucolor="dark"
 " Material
 let g:material_terminal_italics = 1
 let g:material_theme_style = 'ocean'
-colorscheme material
 
 " "Add custom colors to sonokai
 function! s:sonokai_custom() abort
@@ -170,6 +158,54 @@ if get(g:, 'elite_mode')
     nnoremap <Right> :vertical resize -2<CR>
 endif
 
+let g:coc_global_extensions = [
+    \ 'coc-lists',
+    \ 'coc-explorer',
+    \ 'coc-fzf-preview',
+    \ 'coc-git',
+    \ 'coc-highlight',
+    \ 'coc-html',
+    \ 'coc-tailwindcss',
+    \ 'coc-emoji',
+    \ 'coc-snippets',
+    \ 'coc-prettier',
+    \ 'coc-emmet',
+    \ 'coc-python',
+    \ 'coc-rls',
+    \ 'coc-sh',
+    \ 'coc-json',
+    \ 'coc-markdownlint',
+    \ 'coc-texlab',
+    \ 'coc-tsserver',
+    \ 'coc-css',
+    \ 'coc-clangd',
+    \ 'coc-tsserver',
+    \ 'coc-vetur',
+    \ 'coc-pairs',
+    \ ]
+
+" function to open files in the CS lab layout
+" This opens files in the following layout:
+"  ----------------------
+"  main.c       | utils.c
+"  -----------------------
+"  question.txt | utils.h
+"  -----------------------
+"  Run the terminal with script in a separate tmux tab
+function! OpenLabFiles()
+    split
+    wincmd w
+    e main.c
+    vsplit
+    e utils.c
+    wincmd w
+    e questions.txt
+    vsplit
+    e utils.h
+    wincmd w
+    wincmd =
+endfunction
+
 " GVIM specifc config
 au GUIEnter * simalt ~x
 set guioptions-=m
@@ -197,6 +233,10 @@ set clipboard=unnamedplus
 " toggle left file explorer
 map <C-t> :Lex<CR>
 
+" Neomake Config
+let g:neomake_open_list = 2
+nnoremap <leader>mk :Neomake<CR>
+
 " move indent when enter is pressed
 set autoindent
 " show matching brackets
@@ -210,11 +250,25 @@ nnoremap <leader>rc :e $MYVIMRC<CR>
 nnoremap <leader>i3 :e ~/.config/i3/config<CR>
 nnoremap <leader>src :source $MYVIMRC<CR>
 nnoremap <leader>fi magg=G`a
-nnoremap <leader>g :Goyo<CR>
+nnoremap <leader>sm :Goyo<CR>
 nnoremap <leader>w :w<CR>
 nnoremap <leader>- :sp<CR>
 nnoremap <leader>\| :vs<CR>
 nnoremap <leader>f :NERDTreeToggle<CR>
+nnoremap <leader>l :call OpenLabFiles()<CR>
+nnoremap <leader>pi :PlugInstall()<CR>
+nnoremap <leader>m :call StartMarkdownPreview()<CR>
+nnoremap <leader>tb :term ++curwin<CR>
+
+" Git mappings
+nnoremap <leader>gb :GitBlame<CR>
+nnoremap <leader>gc :Commits<CR>
+nnoremap <leader>gbc :BCommits<CR>
+
+nnoremap <leader>tt :Windows<CR>
+nnoremap <leader>bb :Buffers<CR>
+nnoremap <leader>mm :Maps<CR>
+nnoremap <leader>t :Tags<CR>
 
 " markdown preview function
 function! g:StartMarkdownPreview()
@@ -256,8 +310,8 @@ let g:ale_linters = {'python': ['autopep8'], 'javascript': ['eslint'],}
 let g:ale_fixers = {'python': ['black']}
 let g:ale_fix_on_save = 1
 let g:ale_python_executable='/usr/bin/python3'
-let g:ale_sign_error='✗'
-let g:ale_sign_warning='❱'
+let g:ale_sign_error='>>'
+let g:ale_sign_warning='!'
 let g:ale_set_highlights=1
 let g:ale_set_signs=1
 hi ALEWarning ctermbg=none cterm=underline term=underline
@@ -359,6 +413,137 @@ let g:tslime_visual_mapping = '<leader>t'
 let g:tslime_vars_mapping = '<leader>T'
 " }}}
 
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+
+" Use CTRL-S for selections ranges.
+" Requires 'textDocument/selectionRange' support of language server.
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Mappings for CoCList
+" Show all diagnostics.
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+" Show commands.
+nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list.
+nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
+" Scroll the documentation window
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
 
 
 
