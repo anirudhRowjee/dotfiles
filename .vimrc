@@ -36,6 +36,9 @@ Plug 'sjl/tslime.vim'
 Plug 'tweekmonster/django-plus.vim'
 " colors
 Plug 'sainnhe/sonokai'
+Plug 'morhetz/gruvbox'
+Plug 'lifepillar/vim-gruvbox8'
+Plug 'srcery-colors/srcery-vim'
 " LaTeX setup
 Plug 'vim-latex/vim-latex'
 " UML diagram support
@@ -142,7 +145,7 @@ augroup END
 
 set background=dark
 " colorscheme afterglow
-colorscheme sonokai
+colorscheme gruvbox
 
 " NetRW configuration
 let g:netrw_liststyle = 3
