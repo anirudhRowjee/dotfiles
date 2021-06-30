@@ -169,6 +169,7 @@ for_window [title="Shutdown options"] floating enable
 # set only HDMI monitor as primary
 bindsym $mod+t exec --no-startup-id ~/.screenlayout/combi.sh
 bindsym $mod+o exec --no-startup-id ~/.screenlayout/main.sh
+bindsym $mod+c exec --no-startup-id ~/.screenlayout/solo.sh
 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
@@ -177,7 +178,7 @@ bar {
 	i3bar_command i3bar --transparency
 	status_command i3status
 	# strip_workspace_numbers yes
-    position bottom
+    position top
     font pango:hack 8
     tray_output primary
     binding_mode_indicator yes
@@ -201,10 +202,10 @@ for_window [class="floating"] border pixel 1
 # screencasting setup
 for_window [title="video0 - mpv"] floating enable
 for_window [title="video0 - mpv"] sticky enable
-bindsym $mod+c exec --no-startup-id "camtoggle"
 
-exec_always --no-startup-id feh  --bg-fill ~/Pictures/wallpapers/n149idmkf7931.png
+exec_always --no-startup-id feh  --bg-fill ~/Pictures/wallpapers/star-wars-fans-1920×1080.jpg
 exec_always --no-startup-id i3-workspace-names-daemon
+exec_always --no-startup-id pkill compton && compton
 
 
 # set numpad as mouse
@@ -229,8 +230,9 @@ for_window [class="GtkFileChooserDialog"] [floating] resize set x y 300 300
 bindsym mod4+l exec "./scripts/shutdownmenu"
 bindsym $mod+shift+f exec firefox
 bindsym $mod+shift+u exec qutebrowser
+bindsym $mod+shift+d exec discord
 bindsym $mod+shift+s exec gnome-control-center
-bindsym $mod+shift+t exec teams
+bindsym $mod+shift+t exec teams-for-linux
 bindsym $mod+Shift+w exec "./nmcli-rofi/nmcli-rofi"
 bindsym $mod+Shift+b exec "./rofi-bluetooth/rofi-bluetooth"
 bindsym $mod+Shift+z exec "zathura -c ~/.config/zathura"
