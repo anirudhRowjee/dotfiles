@@ -100,11 +100,21 @@ let g:gbcurrent = 'dark'
 let g:sonokai_style='andromeda'
 let g:sonokai_enable_italic=1
 
+"" Srcery
+let g:srcery_italic=1
+let g:srcery_bold=1
+let g:srcery_underline=1
+let g:srcery_undercurl=1
+let g:srcery_inverse_matches=1
+let g:srcery_inverse=1
+let g:srcery_black='#0F0F0F'
+
 "" Equinusocio-Material
 let g:equinusocio_material_style = 'pure'
 
 " Vim-Afterglow
-let g:airline_them = 'afterglow'
+" let g:airline_them = 'afterglow'
+let g:airline_them = 'srcery'
 let g:afterglow_blackout=1 
 let g:afterglow_italic_comments=1
 
@@ -145,7 +155,8 @@ augroup END
 
 set background=dark
 " colorscheme afterglow
-colorscheme gruvbox
+colorscheme srcery
+hi Normal guibg=NONE ctermbg=NONE
 
 " NetRW configuration
 let g:netrw_liststyle = 3
@@ -262,6 +273,8 @@ nnoremap <leader>l :call OpenLabFiles()<CR>
 nnoremap <leader>pi :PlugInstall()<CR>
 nnoremap <leader>m :call StartMarkdownPreview()<CR>
 nnoremap <leader>tb :term ++curwin<CR>
+nnoremap <leader>j <down>
+nnoremap <leader>k <up>
 
 " Git mappings
 nnoremap <leader>gb :GitBlame<CR>
@@ -272,6 +285,9 @@ nnoremap <leader>tt :Windows<CR>
 nnoremap <leader>bb :Buffers<CR>
 nnoremap <leader>mm :Maps<CR>
 nnoremap <leader>t :Tags<CR>
+
+" Coc.nvim bindings
+nnoremap <leader>ss :CocCommand clangd.switchSourceHeader<CR>
 
 " markdown preview function
 function! g:StartMarkdownPreview()
@@ -423,11 +439,6 @@ else
   inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -548,6 +559,9 @@ if has('nvim-0.4.0') || has('patch-8.2.0750')
   vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
+" use tab and shift-tab to navigate the completion menu instead of arrow keys
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 
 "vim ft=vim;
