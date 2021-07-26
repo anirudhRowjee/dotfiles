@@ -5,8 +5,13 @@
 #/_/ |_|\____/|__/|__/_/ /\___/\___/ /____/  /_//____/|__/|__/_/ /_/ /_/   \___/\____/_/ /_/_/ /_/\__, /  
 #                   /___/                                                                        /____/ 
 
+
+# change monitor setup
+exec_always --no-startup-id "autorandr --change"
+
+
 set $mod Mod1
-set $sc_term --no-startup-id st -n dropdown
+set $sc_term --no-startup-id kitty --name dropdown
 set $brightness 100
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -184,6 +189,9 @@ bar {
     binding_mode_indicator yes
 #	mode hide
 #   modifier none
+    colors {
+        background #00000077
+    }
 }
 
 # bar is hidden by default, toggle with alt+m
@@ -194,6 +202,7 @@ exec_always --no-startup-id nm-applet
 exec_always --no-startup-id xbacklight -s 100%
 exec_always --no-startup-id blueman-applet
 exec_always --no-startup-id xfce4-power-manager
+exec_always --no-startup-id compton
 
 # disable borders
 for_window [class=".*"] border pixel 1
@@ -203,7 +212,7 @@ for_window [class="floating"] border pixel 1
 for_window [title="video0 - mpv"] floating enable
 for_window [title="video0 - mpv"] sticky enable
 
-exec_always --no-startup-id feh  --bg-fill ~/Pictures/wallpapers/star-wars-fans-1920×1080.jpg
+exec_always --no-startup-id feh  --bg-fill ~/Pictures/wallpapers/tobias-roetsch-jumpgate-2560-1440.jpg
 exec_always --no-startup-id i3-workspace-names-daemon
 exec_always --no-startup-id pkill compton && compton
 
@@ -237,6 +246,7 @@ bindsym $mod+Shift+w exec "./nmcli-rofi/nmcli-rofi"
 bindsym $mod+Shift+b exec "./rofi-bluetooth/rofi-bluetooth"
 bindsym $mod+Shift+z exec "zathura -c ~/.config/zathura"
 bindsym $mod+Shift+p exec pavucontrol
+bindsym $mod+Shift+n exec "./~/notion-linux-x64/notion"
 exec_always i3-msg split h
 
 # brightness controls
