@@ -19,11 +19,10 @@ Plug 'junegunn/fzf',{ 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 " IDE Features
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim'
 Plug 'sheerun/vim-polyglot'
 Plug 'dense-analysis/ale'
 Plug 'zivyangll/git-blame.vim'
-Plug 'liuchengxu/vista.vim'
 Plug 'neomake/neomake'
 " framework support
 Plug 'mattn/emmet-vim'
@@ -34,11 +33,12 @@ Plug 'maxmellon/vim-jsx-pretty'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'sjl/tslime.vim'
 Plug 'tweekmonster/django-plus.vim'
+Plug 'fatih/vim-go'
 " colors
-Plug 'sainnhe/sonokai'
 Plug 'morhetz/gruvbox'
-Plug 'lifepillar/vim-gruvbox8'
 Plug 'srcery-colors/srcery-vim'
+Plug 'sainnhe/edge'
+Plug 'justinmk/vim-syntax-extra'
 " LaTeX setup
 Plug 'vim-latex/vim-latex'
 " UML diagram support
@@ -65,6 +65,7 @@ set re=1
 " Set Proper Tabs
 set ts=4 shiftwidth=4
 set ttyfast
+set clipboard=unnamedplus
 
 " Always display the status line
 set laststatus=2
@@ -75,7 +76,7 @@ let g:elite_mode=1
 " airline config
 let g:airline_powerline_fonts = 1
 let g:airline_theme_background='dark'
-let g:airline_theme='google_dark'
+let g:airline_theme='base16_bright'
 let g:airline#extensions#hunks#enabled=1
 " Theme and Styling 
 set t_Co=256
@@ -109,52 +110,7 @@ let g:srcery_inverse_matches=1
 let g:srcery_inverse=1
 let g:srcery_black='#0F0F0F'
 
-"" Equinusocio-Material
-let g:equinusocio_material_style = 'pure'
-
-" Vim-Afterglow
-" let g:airline_them = 'afterglow'
-let g:airline_them = 'srcery'
-let g:afterglow_blackout=1 
-let g:afterglow_italic_comments=1
-
-" Ayu
-let ayucolor="dark"
-
-" Material
-let g:material_terminal_italics = 1
-let g:material_theme_style = 'ocean'
-
-" "Add custom colors to sonokai
-function! s:sonokai_custom() abort
-  " Link a highlight group to a predefined highlight group.
-  " See `colors/sonokai.vim` for all predefined highlight groups.
-  " Initialize the color palette.
-  " The parameter is a valid value for `g:sonokai_style`,
-  let l:palette = sonokai#get_palette('atlantis')
-  " Define a highlight group.
-  " The first parameter is the name of a highlight group,
-  " the second parameter is the foreground color,
-  " the third parameter is the background color,
-  " the fourth parameter is for UI highlighting which is optional,
-  " and the last parameter is for `guisp` which is also optional.
-  " See `autoload/sonokai.vim` for the format of `l:palette`.
-  call sonokai#highlight('Normal', l:palette.fg, l:palette.black)
-  call sonokai#highlight('Terminal', l:palette.fg, l:palette.black)
-  call sonokai#highlight('EndOfBuffer', l:palette.bg0, l:palette.black)
-  call sonokai#highlight('Folded', l:palette.grey, l:palette.black)
-  call sonokai#highlight('ToolbarLine', l:palette.fg, l:palette.black)
-  call sonokai#highlight('SignColumn', l:palette.fg, l:palette.black)
-  call sonokai#highlight('FoldColumn', l:palette.grey, l:palette.black)
-endfunction
-
-augroup SonokaiCustom
-  autocmd!
-  autocmd ColorScheme sonokai call s:sonokai_custom()
-augroup END
-
 set background=dark
-" colorscheme afterglow
 colorscheme srcery
 hi Normal guibg=NONE ctermbg=NONE
 
@@ -177,7 +133,6 @@ let g:coc_global_extensions = [
     \ 'coc-explorer',
     \ 'coc-fzf-preview',
     \ 'coc-git',
-    \ 'coc-highlight',
     \ 'coc-html',
     \ 'coc-tailwindcss',
     \ 'coc-emoji',
@@ -203,7 +158,7 @@ let g:coc_global_extensions = [
 "  ----------------------
 "  main.c       | utils.c
 "  -----------------------
-"  question.txt | utils.h
+"  questions.txt | utils.h
 "  -----------------------
 "  Run the terminal with script in a separate tmux tab
 function! OpenLabFiles()
@@ -220,7 +175,7 @@ function! OpenLabFiles()
     wincmd =
 endfunction
 
-" GVIM specifc config
+" GVIM specifc config - Make Gvim behave like CLI vim
 au GUIEnter * simalt ~x
 set guioptions-=m
 set guioptions-=T
@@ -243,7 +198,6 @@ nnoremap <tab> <C-w>w
 " syntax marking for python (may not work)
 let python_highlight_all=1
 " set to system clipboard
-set clipboard=unnamedplus
 " toggle left file explorer
 map <C-t> :Lex<CR>
 
@@ -356,6 +310,7 @@ autocmd BufWritePost *.puml normal ]vi<CR>
 
 " markdownfornotes
 autocmd BufWritePost *.notes.md :!pandoc --pdf-engine=pdflatex --highlight-style zenburn -N % -o %:r.pdf
+
 " vim-latex config
 let g:Tex_ViewRule_pdf = 'zathura'
 let g:tex_flavor='latex'
@@ -563,5 +518,9 @@ endif
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
+" I don't even know what this is
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 "vim ft=vim;

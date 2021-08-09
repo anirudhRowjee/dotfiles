@@ -16,39 +16,39 @@
 set font "inconsolata 9"
 set selection-clipboard clipboard
 
-# Base16 Gruvbox dark, hard
-# Author: Dawid Kurek (dawikur@gmail.com), morhetz (https://github.com/morhetz/gruvbox)
 
-set default-bg                  "#1d2021"
-set default-fg                  "#3c3836"
+# Base16 Equilibrium Dark
+# Author: Carlo Abelli
 
-set statusbar-fg                "#bdae93"
-set statusbar-bg                "#504945"
+set default-bg                  "#0c1118"
+set default-fg                  "#181c22"
 
-set inputbar-bg                 "#1d2021"
-set inputbar-fg                 "#fbf1c7"
+set statusbar-fg                "#949088"
+set statusbar-bg                "#22262d"
 
-set notification-bg             "#1d2021"
-set notification-fg             "#fbf1c7"
+set inputbar-bg                 "#0c1118"
+set inputbar-fg                 "#e7e2d9"
 
-set notification-error-bg       "#1d2021"
-set notification-error-fg       "#fb4934"
+set notification-bg             "#0c1118"
+set notification-fg             "#e7e2d9"
 
-set notification-warning-bg     "#1d2021"
-set notification-warning-fg     "#fb4934"
+set notification-error-bg       "#0c1118"
+set notification-error-fg       "#f04339"
 
-set highlight-color             "#fabd2f"
-set highlight-active-color      "#83a598"
+set notification-warning-bg     "#0c1118"
+set notification-warning-fg     "#f04339"
 
-set completion-bg               "#3c3836"
-set completion-fg               "#83a598"
+set highlight-color             "#bb8801"
+set highlight-active-color      "#008dd1"
 
-set completion-highlight-fg     "#fbf1c7"
-set completion-highlight-bg     "#83a598"
+set completion-bg               "#181c22"
+set completion-fg               "#008dd1"
 
-set recolor-lightcolor          "#1d2021"
-set recolor-darkcolor           "#ebdbb2"
+set completion-highlight-fg     "#e7e2d9"
+set completion-highlight-bg     "#008dd1"
 
+set recolor-lightcolor          "#0c1118"
+set recolor-darkcolor           "#cac6bd"
 set recolor                     "true"
 set recolor-keephue             "false"
 

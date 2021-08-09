@@ -113,7 +113,7 @@ alias zathura="zathura -c .config/zathura/"
 alias zaread="./~/scripts/zaread"
 alias v="vim"
 alias vt="vim -c ':term ++curwin'"
-alias nv="nvim"
+alias nv="~/nvim.appimage"
 alias matlab="./matlab/bin/matlab"
 
 # aliases for currently hot directories
@@ -127,6 +127,7 @@ alias goclg="cd ~/college/sem2/"
 
 alias j="./scripts/dir-switcher.sh"
 alias p="python3"
+alias t="tmux"
 
 # camera toggle
 alias camtoggle="pkill -f /dev/video0 || mpv --geometry=-0-0 --autofit=30% /dev/video0"
@@ -154,9 +155,25 @@ export EDITOR="$VISUAL"
 # rust
 export PATH="$HOME/.cargo/bin:$PATH"
 
+# go
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
  eval "$(pyenv init -)"
 fi
 export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
+
+man() {
+  GROFF_NO_SGR=1 \
+  LESS_TERMCAP_md=$'\e[1;31m' \
+  LESS_TERMCAP_me=$'\e[0m' \
+  LESS_TERMCAP_us=$'\e[1;34m' \
+  LESS_TERMCAP_ue=$'\e[0m' \
+  LESS_TERMCAP_so=$'\e[1;35m' \
+  LESS_TERMCAP_se=$'\e[0m' \
+  command man "$@"
+}
