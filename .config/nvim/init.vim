@@ -11,18 +11,24 @@
 call plug#begin(stdpath('data') . '/plugged')
 
 " GUI and UI plugins
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-surround'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/fzf',{ 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'jiangmiao/auto-pairs'
+Plug 'hoob3rt/lualine.nvim'
+Plug 'mhinz/vim-signify'
+
 " IDE Features
 Plug 'sheerun/vim-polyglot'
 Plug 'dense-analysis/ale'
 Plug 'zivyangll/git-blame.vim'
 Plug 'neomake/neomake'
+Plug 'kyazdani42/nvim-web-devicons' " for file icons
+Plug 'kyazdani42/nvim-tree.lua'
+Plug 'akinsho/bufferline.nvim'
+
 " LSP Support
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp_extensions.nvim'
@@ -30,24 +36,31 @@ Plug 'hrsh7th/nvim-compe'
 Plug 'glepnir/lspsaga.nvim'
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'onsails/lspkind-nvim'
+Plug 'liuchengxu/vista.vim'
+
+" Treesitter
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+
 " framework support
 Plug 'mattn/emmet-vim'
-Plug 'SirVer/ultisnips'
-Plug 'mlaursen/vim-react-snippets'
-Plug 'herringtonDarkholme/yats.vim'
-Plug 'maxmellon/vim-jsx-pretty'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'sjl/tslime.vim'
 Plug 'tweekmonster/django-plus.vim'
 Plug 'fatih/vim-go'
-Plug 'nvim-telescope/telescope.nvim'
+Plug 'norcalli/nvim-colorizer.lua'
+Plug 'hiphish/jinja.vim'
+
+" Rust
+Plug 'rust-lang/rust.vim'
+Plug 'simrat39/rust-tools.nvim'
+
 " Leetcode, because why not
 Plug 'ianding1/leetcode.vim'
+
 " colors
-Plug 'srcery-colors/srcery-vim'
+Plug 'rafamadriz/neon'
 Plug 'justinmk/vim-syntax-extra'
-" LaTeX setup
-Plug 'vim-latex/vim-latex'
+
 " UML diagram support
 Plug 'aklt/plantuml-syntax'
 " debugger
@@ -83,21 +96,12 @@ set backspace=indent,eol,start
 set hidden
 set updatetime=200
 
-" airline config
-let g:airline_powerline_fonts = 1
-let g:airline_theme_background='dark'
-let g:airline_theme='base16_bright'
-let g:airline#extensions#hunks#enabled=1
-let g:airline#extensions#tabline#enabled=1
 
-"" Srcery
-let g:srcery_italic=1
-let g:srcery_bold=1
-let g:srcery_underline=1
-let g:srcery_undercurl=1
-let g:srcery_inverse_matches=1
-let g:srcery_inverse=1
-let g:srcery_black='#0F0F0F'
+" Disable arrow movement, resize splits instead.
+nnoremap <Up>    :resize +2<CR>
+nnoremap <Down>  :resize -2<CR>
+nnoremap <Left>  :vertical resize +2<CR>
+nnoremap <Right> :vertical resize -2<CR>
 
 " vim-go 
 "" enable all highlighing
@@ -111,11 +115,12 @@ let g:go_highlight_operators = 1
 set t_Co=256
 set termguicolors
 set background=dark
-colorscheme srcery
 set nocursorline
+set wrap
+set linebreak
 set signcolumn=yes
 "" Highlights
-hi Normal guibg=NONE ctermbg=NONE
+" hi Normal guibg=NONE ctermbg=NONE
 highlight clear SignColumn
 
 " Mappings and Bindings
@@ -132,7 +137,8 @@ nnoremap <leader>sm :Goyo<CR>
 nnoremap <leader>w :w<CR>
 nnoremap <leader>- :sp<CR>
 nnoremap <leader>\| :vs<CR>
-nnoremap <leader>f :NERDTreeToggle<CR>
+nnoremap <leader>f :NvimTreeToggle<CR>
+nnoremap <leader>v :Vista<CR>
 nnoremap <leader>l :call OpenLabFiles()<CR>
 nnoremap <leader>pi :PlugInstall()<CR>
 nnoremap <leader>m :MarkdownPreview<CR>
@@ -174,9 +180,12 @@ function! OpenLabFiles()
     wincmd =
 endfunction
 
+
+
 " LSP
 lua << EOF
 local nvim_lsp = require('lspconfig')
+
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -213,7 +222,7 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'clangd', 'pyright', 'rust_analyzer', 'tsserver', 'gopls' }
+local servers = { 'clangd', 'pyright', 'rust_analyzer', 'tsserver', 'gopls', 'svls' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -285,13 +294,288 @@ require('lspkind').init({
     },
 })
 
+-- Syntax Highlighting
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    custom_captures = {
+      -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
+      ["foo.bar"] = "Identifier",
+    },
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+}
+
+
+-- config for neon
+vim.g.neon_style = "dark"
+vim.g.neon_italic_keyword = true
+vim.g.neon_italic_boolean = true
+vim.g.neon_italic_function = true
+-- vim.g.neon_italic_variable = true
+-- vim.g.neon_bold = true
+
+-- bufferline.nvim
+require("bufferline").setup{ }
+
+-- lualine
+-- Eviline config for lualine
+-- Author: shadmansaleh
+-- Credit: glepnir
+local lualine = require 'lualine'
+
+-- Color table for highlights
+local colors = {
+  bg = '#202328',
+  fg = '#bbc2cf',
+  yellow = '#ECBE7B',
+  cyan = '#008080',
+  darkblue = '#081633',
+  green = '#98be65',
+  orange = '#FF8800',
+  violet = '#a9a1e1',
+  magenta = '#c678dd',
+  blue = '#51afef',
+  red = '#ec5f67'
+}
+
+local conditions = {
+  buffer_not_empty = function() return vim.fn.empty(vim.fn.expand('%:t')) ~= 1 end,
+  hide_in_width = function() return vim.fn.winwidth(0) > 80 end,
+  check_git_workspace = function()
+    local filepath = vim.fn.expand('%:p:h')
+    local gitdir = vim.fn.finddir('.git', filepath .. ';')
+    return gitdir and #gitdir > 0 and #gitdir < #filepath
+  end
+}
+
+-- Config
+local config = {
+  options = {
+    -- Disable sections and component separators
+    component_separators = "",
+    section_separators = "",
+    theme = {
+      -- We are going to use lualine_c an lualine_x as left and
+      -- right section. Both are highlighted by c theme .  So we
+      -- are just setting default looks o statusline
+      normal = {c = {fg = colors.fg, bg = colors.bg}},
+      inactive = {c = {fg = colors.fg, bg = colors.bg}}
+    }
+  },
+  sections = {
+    -- these are to remove the defaults
+    lualine_a = {},
+    lualine_b = {},
+    lualine_y = {},
+    lualine_z = {},
+    -- These will be filled later
+    lualine_c = {},
+    lualine_x = {}
+  },
+  inactive_sections = {
+    -- these are to remove the defaults
+    lualine_a = {},
+    lualine_v = {},
+    lualine_y = {},
+    lualine_z = {},
+    lualine_c = {},
+    lualine_x = {}
+  },
+-- tabline = {
+--   lualine_a = {},
+--   lualine_b = {},
+--   lualine_c = {'filename'},
+--   lualine_x = {},
+--   lualine_y = {},
+--   lualine_z = {}
+-- }
+}
+
+-- Inserts a component in lualine_c at left section
+local function ins_left(component)
+  table.insert(config.sections.lualine_c, component)
+  table.insert(config.inactive_sections.lualine_c, component)
+end
+
+-- Inserts a component in lualine_x ot right section
+local function ins_right(component)
+  table.insert(config.sections.lualine_x, component)
+  table.insert(config.inactive_sections.lualine_x, component)
+end
+
+ins_left {
+  function() return '▊' end,
+  color = {fg = colors.blue}, -- Sets highlighting of component
+  left_padding = 0 -- We don't need space before this
+}
+
+ins_left {
+  -- mode component
+  function()
+    -- auto change color according to neovims mode
+    local mode_color = {
+      n = colors.red,
+      i = colors.green,
+      v = colors.blue,
+      [''] = colors.blue,
+      V = colors.blue,
+      c = colors.magenta,
+      no = colors.red,
+      s = colors.orange,
+      S = colors.orange,
+      [''] = colors.orange,
+      ic = colors.yellow,
+      R = colors.violet,
+      Rv = colors.violet,
+      cv = colors.red,
+      ce = colors.red,
+      r = colors.cyan,
+      rm = colors.cyan,
+      ['r?'] = colors.cyan,
+      ['!'] = colors.red,
+      t = colors.red
+    }
+    vim.api.nvim_command(
+        'hi! LualineMode guifg=' .. mode_color[vim.fn.mode()] .. " guibg=" ..
+            colors.bg)
+    -- vim.fn.mode()
+    return ' < ' .. vim.fn.mode() .. ' > '
+  end,
+  color = "LualineMode",
+  left_padding = 0
+}
+
+ins_left {
+    'mode'
+}
+
+ins_left {
+  -- filesize component
+  function()
+    local function format_file_size(file)
+      local size = vim.fn.getfsize(file)
+      if size <= 0 then return '' end
+      local sufixes = {'b', 'k', 'm', 'g'}
+      local i = 1
+      while size > 1024 do
+        size = size / 1024
+        i = i + 1
+      end
+      return string.format('%.1f%s', size, sufixes[i])
+    end
+    local file = vim.fn.expand('%:p')
+    if string.len(file) == 0 then return '' end
+    return format_file_size(file)
+  end,
+  condition = conditions.buffer_not_empty
+}
+
+ins_left {
+  'filename',
+  condition = conditions.buffer_not_empty,
+  color = {fg = colors.magenta, gui = 'bold'}
+}
+
+ins_left {'filetype', colored = true}
+
+ins_left {'location'}
+
+ins_left {'progress', color = {fg = colors.fg, gui = 'bold'}}
+
+ins_left {
+  'diagnostics',
+  sources = {'nvim_lsp'},
+  symbols = {error = ' ', warn = ' ', info = ' '},
+  color_error = colors.red,
+  color_warn = colors.yellow,
+  color_info = colors.cyan
+}
+
+-- Insert mid section. You can make any number of sections in neovim :)
+-- for lualine it's any number greater then 2
+ins_left {function() return '%=' end}
+
+ins_left {
+  -- Lsp server name .
+  function()
+    local msg = 'No Active Lsp'
+    local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+    local clients = vim.lsp.get_active_clients()
+    if next(clients) == nil then return msg end
+    for _, client in ipairs(clients) do
+      local filetypes = client.config.filetypes
+      if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+        return client.name
+      end
+    end
+    return msg
+  end,
+  icon = ' LSP:',
+  color = {fg = '#ffffff', gui = 'bold'}
+}
+
+-- Add components to right sections
+ins_right {
+  'o:encoding', -- option component same as &encoding in viml
+  upper = true, -- I'm not sure why it's upper case either ;)
+  condition = conditions.hide_in_width,
+  color = {fg = colors.green, gui = 'bold'}
+}
+
+ins_right {
+  'fileformat',
+  upper = true,
+  icons_enabled = true, -- I think icons are cool but Eviline doesn't have them. sigh
+  color = {fg = colors.green, gui = 'bold'}
+}
+
+
+ins_right {
+  'branch',
+  icon = '',
+  condition = conditions.check_git_workspace,
+  color = {fg = colors.violet, gui = 'bold'}
+}
+
+ins_right {
+  'diff',
+  -- Is it me or the symbol for modified us really weird
+  symbols = {added = ' ', modified = '柳 ', removed = ' '},
+  color_added = colors.green,
+  color_modified = colors.orange,
+  color_removed = colors.red
+  -- condition = conditions.hide_in_width
+}
+
+ins_right {
+  function() return '▊' end,
+  color = {fg = colors.blue},
+  right_padding = 0
+}
+
+-- Now don't forget to initialize lualine
+lualine.setup(config)
+
 EOF
+
+" -- Statusline
+function! LspStatus() abort
+  if luaeval('#vim.lsp.buf_get_clients() > 0')
+    return luaeval("require('lsp-status').status()")
+  endif
+
+  return ''
+endfunction
 
 " -- lsp provider to find the cursor word definition and reference
 nnoremap <silent> gh <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
 " -- or use command LspSagaFinder
 nnoremap <silent> gh :Lspsaga lsp_finder<CR>
-
 " -- code action
 nnoremap <silent><leader>ca <cmd>lua require('lspsaga.codeaction').code_action()<CR>
 vnoremap <silent><leader>ca :<C-U>lua require('lspsaga.codeaction').range_code_action()<CR>
@@ -300,8 +584,6 @@ nnoremap <silent><leader>ca :Lspsaga code_action<CR>
 vnoremap <silent><leader>ca :<C-U>Lspsaga range_code_action<CR>
 " -- show hover doc
 nnoremap <silent> K <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
-" -- or use command
-
 " -- show signature help
 nnoremap <silent> gs <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
 " -- or command
@@ -352,3 +634,65 @@ inoremap <silent><expr> <CR>      compe#confirm('<CR>')
 inoremap <silent><expr> <C-e>     compe#close('<C-e>')
 inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
 inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+
+" Vista.vim config
+" How each level is indented and what to prepend.
+" This could make the display more compact or more spacious.
+" e.g., more compact: ["▸ ", ""]
+" Note: this option only works for the kind renderer, not the tree renderer.
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+
+" Executive used when opening vista sidebar without specifying it.
+" See all the avaliable executives via `:echo g:vista#executives`.
+let g:vista_default_executive = 'ctags'
+
+" Set the executive for some filetypes explicitly. Use the explicit executive
+" instead of the default one for these filetypes when using `:Vista` without
+" specifying the executive.
+let g:vista_executive_for = {
+  \ 'cpp': 'vim_lsp',
+  \ 'php': 'vim_lsp',
+  \ }
+
+" Declare the command including the executable and options used to generate ctags output
+" for some certain filetypes.The file path will be appened to your custom command.
+" For example:
+let g:vista_ctags_cmd = {
+      \ 'haskell': 'hasktags -x -o - -c',
+      \ }
+
+" To enable fzf's preview window set g:vista_fzf_preview.
+" The elements of g:vista_fzf_preview will be passed as arguments to fzf#vim#with_preview()
+" For example:
+let g:vista_fzf_preview = ['right:50%']
+
+" Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
+let g:vista#renderer#enable_icon = 1
+
+lua require'colorizer'.setup()
+
+" Enable type inlay hints
+autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
+            \ lua require'lsp_extensions'.inlay_hints{ prefix = ' >> ', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
+
+" set it here so config loads
+let g:neon_style='dark'
+colorscheme neon
+
+" -- show
+nnoremap <silent><leader>cd <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
+
+" -- only show diagnostic if cursor is over the area
+nnoremap <silent><leader>cc <cmd>lua require'lspsaga.diagnostic'.show_cursor_diagnostics()<CR>
+
+" -- jump diagnostic
+nnoremap <silent> [e <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
+nnoremap <silent> ]e <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
+
+" -- preview definition
+nnoremap <silent> gp <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
+
+" Emmet Config
+let g:user_emmet_leader_key = '<leader>e'
+" Neovim Terminal remapping
+tnoremap <Esc> <C-\><C-n>
