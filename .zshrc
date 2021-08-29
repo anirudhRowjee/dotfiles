@@ -117,17 +117,22 @@ alias nv="~/nvim.appimage"
 alias matlab="./matlab/bin/matlab"
 
 # aliases for currently hot directories
-alias gomath="cd ~/college/sem2/UE20MA151/"
-alias gophy="cd ~/college/sem2/UE20PH101/"
-alias gocs="cd ~/college/sem2/UE20CS151/"
-alias gocslab="cd ~/college/sem2/UE20CS152/"
-alias goelec="cd ~/college/sem2/UE20EE101/"
-alias gomech="cd ~/college/sem2/UE20ME101/"
-alias goclg="cd ~/college/sem2/"
+alias goddcol="cd ~/college/sem3/CS206/"
+alias goddco="cd ~/college/sem3/CS201/"
+alias gowt="cd ~/college/sem3/CS204/"
+alias godsal="cd ~/college/sem3/CS207/"
+alias godsa="cd ~/college/sem3/CS202/"
+alias goclg="cd ~/college/sem3/"
+alias ctl="setxkbmap -option ctrl:nocaps"
+
+alias minecraft="java -jar ~/minecraft/TLauncher-2.8.jar"
+alias jflap="java -jar ~/jflap/JFLAP7.1.jar"
 
 alias j="./scripts/dir-switcher.sh"
 alias p="python3"
 alias t="tmux"
+
+export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --margin=1,4 --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
 
 # camera toggle
 alias camtoggle="pkill -f /dev/video0 || mpv --geometry=-0-0 --autofit=30% /dev/video0"
@@ -149,11 +154,12 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
-export VISUAL=vim
+export VISUAL="$HOME/nvim.appimage"
 export EDITOR="$VISUAL"
 
 # rust
-export PATH="$HOME/.cargo/bin:$PATH"
+# export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$PATH:$HOME/.cargo/bin"
 
 # go
 export PATH=$PATH:/usr/local/go/bin
