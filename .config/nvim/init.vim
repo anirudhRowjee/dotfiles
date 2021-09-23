@@ -9,7 +9,6 @@
 
 "" PLUGINS
 call plug#begin(stdpath('data') . '/plugged')
-
 " GUI and UI plugins
 Plug 'tpope/vim-surround'
 Plug 'junegunn/goyo.vim'
@@ -19,7 +18,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'jiangmiao/auto-pairs'
 Plug 'hoob3rt/lualine.nvim'
 Plug 'mhinz/vim-signify'
-
+" Plug 'devanlooches/better-comments-nvim'
+Plug 'glepnir/dashboard-nvim'
 " IDE Features
 Plug 'sheerun/vim-polyglot'
 Plug 'dense-analysis/ale'
@@ -28,8 +28,7 @@ Plug 'neomake/neomake'
 Plug 'kyazdani42/nvim-web-devicons' " for file icons
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'akinsho/bufferline.nvim'
-
-" LSP Support
+" LSP Support 
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'hrsh7th/nvim-compe'
@@ -37,10 +36,11 @@ Plug 'glepnir/lspsaga.nvim'
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'onsails/lspkind-nvim'
 Plug 'liuchengxu/vista.vim'
-
+Plug 'kabouzeid/nvim-lspinstall'
+" Plug 'hrsh7th/vim-vsnip'
+" Plug 'hrsh7th/vim-vsnip-integ'
 " Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-
 " framework support
 Plug 'mattn/emmet-vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
@@ -49,21 +49,41 @@ Plug 'tweekmonster/django-plus.vim'
 Plug 'fatih/vim-go'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'hiphish/jinja.vim'
-
+Plug 'vhda/verilog_systemverilog.vim'
+" Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server'}
 " Rust
 Plug 'rust-lang/rust.vim'
 Plug 'simrat39/rust-tools.nvim'
-
 " Leetcode, because why not
 Plug 'ianding1/leetcode.vim'
-
 " colors
 Plug 'rafamadriz/neon'
-Plug 'justinmk/vim-syntax-extra'
-
+Plug 'Pocco81/Catppuccino.nvim'
+Plug 'hzchirs/vim-material'
+Plug 'marko-cerovac/material.nvim'
+Plug 'sainnhe/gruvbox-material'
+Plug 'sainnhe/sonokai'
+Plug 'savq/melange' 
+Plug 'nxvu699134/vn-night.nvim'
+Plug 'ChristianChiarulli/nvcode-color-schemes.vim'
+Plug 'bluz71/vim-moonfly-colors'
+Plug 'RRethy/nvim-base16'
+Plug 'Shatur/neovim-ayu'
+Plug 'Yagua/nebulous.nvim'
 " UML diagram support
 Plug 'aklt/plantuml-syntax'
-" debugger
+Plug 'jbyuki/venn.nvim'
+Plug 'justinmk/vim-syntax-extra'
+Plug 'ellisonleao/glow.nvim', {'do': ':GlowInstall', 'branch': 'main'}
+" Testing
+" Plug 'vim-test/vim-test'
+" Plug 'rcarriga/vim-ultest', {'do': ':UpdateRemotePlugins' }
+" Minimap
+" Plug 'rinx/nvim-minimap'
+" Debugger
+Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
+Plug 'Pocco81/DAPInstall.nvim'
 call plug#end()
 "-------------------------------------------"
 
@@ -95,7 +115,7 @@ set wildmenu
 set backspace=indent,eol,start
 set hidden
 set updatetime=200
-
+set relativenumber
 
 " Disable arrow movement, resize splits instead.
 nnoremap <Up>    :resize +2<CR>
@@ -115,7 +135,7 @@ let g:go_highlight_operators = 1
 set t_Co=256
 set termguicolors
 set background=dark
-set nocursorline
+set cursorline
 set wrap
 set linebreak
 set signcolumn=yes
@@ -147,6 +167,11 @@ nnoremap <leader>j <down>
 nnoremap <leader>k <up>
 nnoremap <leader>p :Files<CR>
 nnoremap <leader>b :BTags<CR>
+
+" C-Like Mappings
+" nnoremap <leader>cc <CMD>g/\[\vLOG|DEBUG|ERROR\]/normal I// <CR>
+" nnoremap <leader>uc <CMD>g/\[\vLOG|DEBUG|ERROR\]/normal ^3x<CR>
+
 " Git mappings
 nnoremap <leader>gb :GitBlame<CR>
 nnoremap <leader>gc :Commits<CR>
@@ -183,26 +208,27 @@ endfunction
 
 
 " LSP
-lua << EOF
-local nvim_lsp = require('lspconfig')
 
+lua << EOF
+
+-- require'lspinstall'.setup() -- important
+-- local servers = require'lspinstall'.installed_servers()
+
+local nvim_lsp = require('lspconfig')
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
   --Enable completion triggered by <c-x><c-o>
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
   -- Mappings.
   local opts = { noremap=true, silent=true }
-
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  -- buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
@@ -222,7 +248,7 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'clangd', 'pyright', 'rust_analyzer', 'tsserver', 'gopls', 'svls' }
+local servers = { 'html', 'clangd', 'pyright', 'rust_analyzer', 'tsserver', 'gopls', 'svls'}
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -313,14 +339,14 @@ require'nvim-treesitter.configs'.setup {
 
 -- config for neon
 vim.g.neon_style = "dark"
-vim.g.neon_italic_keyword = true
-vim.g.neon_italic_boolean = true
-vim.g.neon_italic_function = true
--- vim.g.neon_italic_variable = true
+vim.g.neon_italic_keyword = false
+vim.g.neon_italic_boolean = false
+vim.g.neon_italic_function = false
+vim.g.neon_italic_variable = false
 -- vim.g.neon_bold = true
 
 -- bufferline.nvim
-require("bufferline").setup{ }
+require("bufferline").setup{}
 
 -- lualine
 -- Eviline config for lualine
@@ -330,7 +356,7 @@ local lualine = require 'lualine'
 
 -- Color table for highlights
 local colors = {
-  bg = '#202328',
+  bg = '#000000',
   fg = '#bbc2cf',
   yellow = '#ECBE7B',
   cyan = '#008080',
@@ -365,7 +391,7 @@ local config = {
       -- are just setting default looks o statusline
       normal = {c = {fg = colors.fg, bg = colors.bg}},
       inactive = {c = {fg = colors.fg, bg = colors.bg}}
-    }
+    },
   },
   sections = {
     -- these are to remove the defaults
@@ -386,14 +412,6 @@ local config = {
     lualine_c = {},
     lualine_x = {}
   },
--- tabline = {
---   lualine_a = {},
---   lualine_b = {},
---   lualine_c = {'filename'},
---   lualine_x = {},
---   lualine_y = {},
---   lualine_z = {}
--- }
 }
 
 -- Inserts a component in lualine_c at left section
@@ -561,6 +579,39 @@ ins_right {
 -- Now don't forget to initialize lualine
 lualine.setup(config)
 
+HighlightTags = {}
+HighlightTags["!"] = {guifg='#ff2d00'}
+HighlightTags["?"] = {guifg='#1f98ff'}
+HighlightTags["todo"] = {guifg='#ff8c00'}
+HighlightTags["TODO"] = {guifg='#ff8c00'}
+HighlightTags["*"] = {guifg='#98C379'}
+vim.g.highlightTags = HighlightTags
+
+
+
+-- ASCII diagrams go stonks
+-- enable or disable keymappings for venn
+function _G.toggle_venn()
+    local venn_enabled = vim.inspect(vim.b.venn_enabled) 
+    if(venn_enabled == "nil") then
+        vim.b.venn_enabled = true
+        vim.cmd[[setlocal ve=all]]
+        -- draw a line on HJKL keystokes
+        vim.api.nvim_buf_set_keymap(0, "n", "J", "<C-v>j:VBox<cr>", {noremap = true})
+        vim.api.nvim_buf_set_keymap(0, "n", "K", "<C-v>k:VBox<cr>", {noremap = true})
+        vim.api.nvim_buf_set_keymap(0, "n", "L", "<C-v>l:VBox<cr>", {noremap = true})
+        vim.api.nvim_buf_set_keymap(0, "n", "H", "<C-v>h:VBox<cr>", {noremap = true})
+        -- draw a box by pressing "f" with visual selection
+        vim.api.nvim_buf_set_keymap(0, "v", "f", ":VBox<cr>", {noremap = true})
+    else
+        vim.cmd[[setlocal ve=]]
+        vim.cmd[[mapclear <buffer>]]
+        vim.b.venn_enabled = nil
+    end
+end
+-- toggle keymappings for venn using <leader>v
+vim.api.nvim_set_keymap('n', '<leader>v', ":lua toggle_venn()<cr>", { noremap = true})
+
 EOF
 
 " -- Statusline
@@ -568,12 +619,9 @@ function! LspStatus() abort
   if luaeval('#vim.lsp.buf_get_clients() > 0')
     return luaeval("require('lsp-status').status()")
   endif
-
   return ''
 endfunction
 
-" -- lsp provider to find the cursor word definition and reference
-nnoremap <silent> gh <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
 " -- or use command LspSagaFinder
 nnoremap <silent> gh :Lspsaga lsp_finder<CR>
 " -- code action
@@ -588,15 +636,14 @@ nnoremap <silent> K <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
 nnoremap <silent> gs <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
 " -- or command
 nnoremap <silent> gs :Lspsaga signature_help<CR>
-
+" -- map for function definition preview
+nnoremap <silent> pd :Lspsaga preview_definition<CR>
 " -- and you also can use smart_scroll_with_saga to scroll in signature help win
 nnoremap <silent>K :Lspsaga hover_doc<CR>
-
 " -- scroll down hover doc or scroll in definition preview
 nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
 " -- scroll up hover doc
 nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
-
 " -- preview definition
 nnoremap <silent> gd <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
 " -- or use command
@@ -654,13 +701,6 @@ let g:vista_executive_for = {
   \ 'php': 'vim_lsp',
   \ }
 
-" Declare the command including the executable and options used to generate ctags output
-" for some certain filetypes.The file path will be appened to your custom command.
-" For example:
-let g:vista_ctags_cmd = {
-      \ 'haskell': 'hasktags -x -o - -c',
-      \ }
-
 " To enable fzf's preview window set g:vista_fzf_preview.
 " The elements of g:vista_fzf_preview will be passed as arguments to fzf#vim#with_preview()
 " For example:
@@ -675,9 +715,7 @@ lua require'colorizer'.setup()
 autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
             \ lua require'lsp_extensions'.inlay_hints{ prefix = ' >> ', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
 
-" set it here so config loads
-let g:neon_style='dark'
-colorscheme neon
+
 
 " -- show
 nnoremap <silent><leader>cd <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
@@ -696,3 +734,126 @@ nnoremap <silent> gp <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
 let g:user_emmet_leader_key = '<leader>e'
 " Neovim Terminal remapping
 tnoremap <Esc> <C-\><C-n>
+
+" -- or use command
+nnoremap <silent> <C-d> :Lspsaga open_floaterm<CR>
+tnoremap <silent> <C-d> <C-\><C-n>:Lspsaga close_floaterm<CR>
+
+" -- dashboard config
+let g:dashboard_default_executive ='fzf'
+
+let g:dashboard_custom_header =<< trim END
+=================     ===============     ===============   ========  ========
+\\ . . . . . . .\\   //. . . . . . .\\   //. . . . . . .\\  \\. . .\\// . . //
+||. . ._____. . .|| ||. . ._____. . .|| ||. . ._____. . .|| || . . .\/ . . .||
+|| . .||   ||. . || || . .||   ||. . || || . .||   ||. . || ||. . . . . . . ||
+||. . ||   || . .|| ||. . ||   || . .|| ||. . ||   || . .|| || . | . . . . .||
+|| . .||   ||. _-|| ||-_ .||   ||. . || || . .||   ||. _-|| ||-_.|\ . . . . ||
+||. . ||   ||-'  || ||  `-||   || . .|| ||. . ||   ||-'  || ||  `|\_ . .|. .||
+|| . _||   ||    || ||    ||   ||_ . || || . _||   ||    || ||   |\ `-_/| . ||
+||_-' ||  .|/    || ||    \|.  || `-_|| ||_-' ||  .|/    || ||   | \  / |-_.||
+||    ||_-'      || ||      `-_||    || ||    ||_-'      || ||   | \  / |  `||
+||    `'         || ||         `'    || ||    `'         || ||   | \  / |   ||
+||            .===' `===.         .==='.`===.         .===' /==. |  \/  |   ||
+||         .=='   \_|-_ `===. .==='   _|_   `===. .===' _-|/   `==  \/  |   ||
+||      .=='    _-'    `-_  `='    _-'   `-_    `='  _-'   `-_  /|  \/  |   ||
+||   .=='    _-'          '-__\._-'         '-_./__-'         `' |. /|  |   ||
+||.=='    _-'                                                     `' |  /==.||
+=='    _-'                        N E O V I M                         \/   `==
+\   _-'                                                                `-_   /
+ `''                              R O W J E E                             ``'
+
+END
+
+lua << EOF
+vim.g.dashboard_preview_command = 'cat'
+vim.g.dashboard_preview_pipeline = 'lolcat'
+vim.g.dashboard_preview_file = '~/scripts/nvim_logo.txt'
+vim.g.dashboard_preview_file_height = 20
+vim.g.dashboard_preview_file_width = 80
+EOF
+
+let g:dashboard_custom_shortcut={
+\ 'last_session'       : '<Leader> s l',
+\ 'find_history'       : '<Leader> f h',
+\ 'find_file'          : '<Leader> f f',
+\ 'new_file'           : '<Leader> c n',
+\ 'change_colorscheme' : '<Leader> t c',
+\ 'find_word'          : '<Leader> f a',
+\ 'book_marks'         : '<Leader> f b',
+\ }
+
+let g:neon_style='dark'
+hi Visual cterm=NONE ctermbg=242 gui=NONE guibg=#1F3546
+
+" folding
+set foldlevel=20
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+
+let g:material_style='deep ocean'
+
+""Gruvbox
+" let g:gruvbox_bold='1'
+let g:gruvbox_termcolors=256
+let g:gruvbox_italic='1'
+let g:gruvbox_underline='1'
+let g:gruvbox_undercurl='1'
+let g:gruvbox_contrast_dark='hard'
+let g:gruvbox_italicize_comments='1'
+let g:gruvbox_italicize_strings='1'
+let g:gruvbox_invert_tabline='1'
+let g:gruvbox_invert_selection='1'
+let g:gruvbox_improved_warnings='1'
+let g:gbcurrent = 'dark'
+
+let g:gruvbox_material_palette='original'
+let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_visual = 'blue background'
+let g:gruvbox_material_sign_column_background = 'none'
+let g:gruvbox_material_sign_column_background = 'none'
+let g:gruvbox_material_diagnostic_virtual_text = 'colored'
+let g:gruvbox_material_better_performance = 1
+
+" Important!!
+if has('termguicolors')
+  set termguicolors
+endif
+" let g:gruvbox_material_palette = {
+"       \ 'bg0':              ['#090B10',   '234'],
+"       \ 'bg1':              ['#161b22',   '235'],
+"       \ 'bg2':              ['#21262d',   '235'],
+"       \ 'bg3':              ['#282828',   '237'],
+"       \ 'bg4':              ['#363a49',   '237'],
+"       \ 'bg5':              ['#504945',   '239'],
+"       \ 'bg_statusline1':   ['#282828',   '235'],
+"       \ 'bg_statusline2':   ['#32302f',   '235'],
+"       \ 'bg_statusline3':   ['#504945',   '239'],
+"       \ 'bg_diff_green':    ['#32361a',   '22'],
+"       \ 'bg_visual_green':  ['#333e34',   '22'],
+"       \ 'bg_diff_red':      ['#3c1f1e',   '52'],
+"       \ 'bg_visual_red':    ['#442e2d',   '52'],
+"       \ 'bg_diff_blue':     ['#0d3138',   '17'],
+"       \ 'bg_visual_blue':   ['#2e3b3b',   '17'],
+"       \ 'bg_visual_yellow': ['#473c29',   '94'],
+"       \ 'bg_current_word':  ['#32302f',   '236'],
+"       \ 'fg0':              ['#aaaaaa',   '223'],
+"       \ 'fg1':              ['#ddc7a1',   '223'],
+"       \ 'red':              ['#ea6962',   '167'],
+"       \ 'orange':           ['#e78a4e',   '208'],
+"       \ 'yellow':           ['#d8a657',   '214'],
+"       \ 'green':            ['#a9b665',   '142'],
+"       \ 'aqua':             ['#89b482',   '108'],
+"       \ 'blue':             ['#7daea3',   '109'],
+"       \ 'purple':           ['#d3869b',   '175'],
+"       \ 'bg_red':           ['#ea6962',   '167'],
+"       \ 'bg_green':         ['#a9b665',   '142'],
+"       \ 'bg_yellow':        ['#d8a657',   '214'],
+"       \ 'grey0':            ['#7c6f64',   '243'],
+"       \ 'grey1':            ['#928374',   '245'],
+"       \ 'grey2':            ['#a89984',   '246'],
+"       \ 'none':             ['NONE',      'NONE']
+"       \ }
+" For dark version.
+set background=dark
+colo neon
