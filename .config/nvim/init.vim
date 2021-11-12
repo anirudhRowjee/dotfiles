@@ -20,6 +20,7 @@ Plug 'hoob3rt/lualine.nvim'
 Plug 'mhinz/vim-signify'
 " Plug 'devanlooches/better-comments-nvim'
 Plug 'glepnir/dashboard-nvim'
+Plug 'kyazdani42/nvim-tree.lua'
 " IDE Features
 Plug 'sheerun/vim-polyglot'
 Plug 'dense-analysis/ale'
@@ -28,6 +29,7 @@ Plug 'neomake/neomake'
 Plug 'kyazdani42/nvim-web-devicons' " for file icons
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'akinsho/bufferline.nvim'
+Plug 'diepm/vim-rest-console'
 " LSP Support 
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp_extensions.nvim'
@@ -37,8 +39,7 @@ Plug 'ray-x/lsp_signature.nvim'
 Plug 'onsails/lspkind-nvim'
 Plug 'liuchengxu/vista.vim'
 Plug 'kabouzeid/nvim-lspinstall'
-" Plug 'hrsh7th/vim-vsnip'
-" Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'arkav/lualine-lsp-progress'
 " Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 " framework support
@@ -50,7 +51,7 @@ Plug 'fatih/vim-go'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'hiphish/jinja.vim'
 Plug 'vhda/verilog_systemverilog.vim'
-" Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server'}
+Plug 'sbdchd/neoformat'
 " Rust
 Plug 'rust-lang/rust.vim'
 Plug 'simrat39/rust-tools.nvim'
@@ -58,33 +59,32 @@ Plug 'simrat39/rust-tools.nvim'
 Plug 'ianding1/leetcode.vim'
 " colors
 Plug 'rafamadriz/neon'
-Plug 'Pocco81/Catppuccino.nvim'
-Plug 'hzchirs/vim-material'
-Plug 'marko-cerovac/material.nvim'
-Plug 'sainnhe/gruvbox-material'
-Plug 'sainnhe/sonokai'
-Plug 'savq/melange' 
-Plug 'nxvu699134/vn-night.nvim'
-Plug 'ChristianChiarulli/nvcode-color-schemes.vim'
-Plug 'bluz71/vim-moonfly-colors'
 Plug 'RRethy/nvim-base16'
-Plug 'Shatur/neovim-ayu'
-Plug 'Yagua/nebulous.nvim'
+Plug 'srcery-colors/srcery-vim'
 " UML diagram support
 Plug 'aklt/plantuml-syntax'
 Plug 'jbyuki/venn.nvim'
 Plug 'justinmk/vim-syntax-extra'
 Plug 'ellisonleao/glow.nvim', {'do': ':GlowInstall', 'branch': 'main'}
+Plug 'dhruvasagar/vim-table-mode'
 " Testing
 " Plug 'vim-test/vim-test'
 " Plug 'rcarriga/vim-ultest', {'do': ':UpdateRemotePlugins' }
 " Minimap
-" Plug 'rinx/nvim-minimap'
 " Debugger
 Plug 'mfussenegger/nvim-dap'
 Plug 'rcarriga/nvim-dap-ui'
 Plug 'Pocco81/DAPInstall.nvim'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+" JS and GraphQL
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'jparise/vim-graphql'
 call plug#end()
+
 "-------------------------------------------"
 
 " sensible defaults
@@ -206,7 +206,6 @@ function! OpenLabFiles()
 endfunction
 
 
-
 " LSP
 
 lua << EOF
@@ -243,12 +242,11 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-
 end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'html', 'clangd', 'pyright', 'rust_analyzer', 'tsserver', 'gopls', 'svls'}
+local servers = { 'clangd', 'pyright', 'rust_analyzer', 'tsserver', 'gopls', 'svls'}
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -257,6 +255,23 @@ for _, lsp in ipairs(servers) do
     }
   }
 end
+
+require'lspconfig'.html.setup {
+    on_attach = on_attach,
+    cmd = {'html-languageserver', '--stdio'},
+    filetypes =  {"html"},
+    init_operations = {
+        configurationSection = {'html', 'css', 'javascript'},
+        embeddedLanguages = {
+            css = true,
+            javascript = true
+        }
+    },
+    settings = {},
+    flags = {
+      debounce_text_changes = 150,
+    }
+}
 
 -- signatures
 require "lsp_signature".setup()
@@ -348,16 +363,11 @@ vim.g.neon_italic_variable = false
 -- bufferline.nvim
 require("bufferline").setup{}
 
--- lualine
--- Eviline config for lualine
--- Author: shadmansaleh
--- Credit: glepnir
-local lualine = require 'lualine'
 
--- Color table for highlights
+-- LUALINE
+
+-- Color for highlights
 local colors = {
-  bg = '#000000',
-  fg = '#bbc2cf',
   yellow = '#ECBE7B',
   cyan = '#008080',
   darkblue = '#081633',
@@ -370,161 +380,108 @@ local colors = {
 }
 
 local conditions = {
-  buffer_not_empty = function() return vim.fn.empty(vim.fn.expand('%:t')) ~= 1 end,
-  hide_in_width = function() return vim.fn.winwidth(0) > 80 end,
+  buffer_not_empty = function()
+    return vim.fn.empty(vim.fn.expand '%:t') ~= 1
+  end,
+  hide_in_width = function()
+    return vim.fn.winwidth(0) > 80
+  end,
   check_git_workspace = function()
-    local filepath = vim.fn.expand('%:p:h')
+    local filepath = vim.fn.expand '%:p:h'
     local gitdir = vim.fn.finddir('.git', filepath .. ';')
     return gitdir and #gitdir > 0 and #gitdir < #filepath
-  end
+  end,
 }
 
--- Config
 local config = {
   options = {
-    -- Disable sections and component separators
-    component_separators = "",
-    section_separators = "",
-    theme = {
-      -- We are going to use lualine_c an lualine_x as left and
-      -- right section. Both are highlighted by c theme .  So we
-      -- are just setting default looks o statusline
-      normal = {c = {fg = colors.fg, bg = colors.bg}},
-      inactive = {c = {fg = colors.fg, bg = colors.bg}}
-    },
+    icons_enabled = true,
+    theme = 'ayu_dark',
+    component_separators = {'', ''},
+    section_separators = {'', ''},
+    disabled_filetypes = {}
   },
   sections = {
-    -- these are to remove the defaults
-    lualine_a = {},
-    lualine_b = {},
-    lualine_y = {},
-    lualine_z = {},
-    -- These will be filled later
+    lualine_a = {'mode'},
+    lualine_b = {'filename', 'branch'},
     lualine_c = {},
-    lualine_x = {}
+    lualine_x = {},
+    lualine_y = {'encoding', 'fileformat', 'filetype'},
+    lualine_z = {},
   },
   inactive_sections = {
-    -- these are to remove the defaults
-    lualine_a = {},
-    lualine_v = {},
-    lualine_y = {},
-    lualine_z = {},
+    lualine_a = {'mode'},
+    lualine_b = {'filename', 'branch'},
     lualine_c = {},
-    lualine_x = {}
+    lualine_x = {},
+    lualine_y = {'encoding', 'fileformat', 'filetype'},
+    lualine_z = {},
   },
+  tabline = {},
+  extensions = {}
 }
+
 
 -- Inserts a component in lualine_c at left section
 local function ins_left(component)
   table.insert(config.sections.lualine_c, component)
-  table.insert(config.inactive_sections.lualine_c, component)
 end
 
 -- Inserts a component in lualine_x ot right section
 local function ins_right(component)
   table.insert(config.sections.lualine_x, component)
-  table.insert(config.inactive_sections.lualine_x, component)
 end
 
-ins_left {
-  function() return '▊' end,
-  color = {fg = colors.blue}, -- Sets highlighting of component
-  left_padding = 0 -- We don't need space before this
+ins_right {
+	'lsp_progress',
+	display_components = { 'lsp_client_name', { 'title', 'percentage', 'message' }},
+	-- With spinner
+	-- display_components = { 'lsp_client_name', 'spinner', { 'title', 'percentage', 'message' }},
+	colors = {
+	  percentage  = colors.cyan,
+	  title  = colors.cyan,
+	  message  = colors.cyan,
+	  spinner = colors.cyan,
+	  lsp_client_name = colors.magenta,
+	  use = true,
+	},
+	separators = {
+		component = ' ',
+		progress = ' | ',
+		message = { pre = '(', post = ')'},
+		percentage = { pre = '', post = '%% ' },
+		title = { pre = '', post = ': ' },
+		lsp_client_name = { pre = '[', post = ']' },
+		spinner = { pre = '', post = '' },
+		message = { commenced = 'In Progress', completed = 'Completed' },
+	},
+	display_components = { 'lsp_client_name', 'spinner', { 'title', 'percentage', 'message' } },
+	timer = { progress_enddelay = 500, spinner = 1000, lsp_client_name_enddelay = 1000 },
+	spinner_symbols = { '🌑 ', '🌒 ', '🌓 ', '🌔 ', '🌕 ', '🌖 ', '🌗 ', '🌘 ' },
 }
 
-ins_left {
-  -- mode component
-  function()
-    -- auto change color according to neovims mode
-    local mode_color = {
-      n = colors.red,
-      i = colors.green,
-      v = colors.blue,
-      [''] = colors.blue,
-      V = colors.blue,
-      c = colors.magenta,
-      no = colors.red,
-      s = colors.orange,
-      S = colors.orange,
-      [''] = colors.orange,
-      ic = colors.yellow,
-      R = colors.violet,
-      Rv = colors.violet,
-      cv = colors.red,
-      ce = colors.red,
-      r = colors.cyan,
-      rm = colors.cyan,
-      ['r?'] = colors.cyan,
-      ['!'] = colors.red,
-      t = colors.red
-    }
-    vim.api.nvim_command(
-        'hi! LualineMode guifg=' .. mode_color[vim.fn.mode()] .. " guibg=" ..
-            colors.bg)
-    -- vim.fn.mode()
-    return ' < ' .. vim.fn.mode() .. ' > '
-  end,
-  color = "LualineMode",
-  left_padding = 0
-}
-
-ins_left {
-    'mode'
-}
-
-ins_left {
-  -- filesize component
-  function()
-    local function format_file_size(file)
-      local size = vim.fn.getfsize(file)
-      if size <= 0 then return '' end
-      local sufixes = {'b', 'k', 'm', 'g'}
-      local i = 1
-      while size > 1024 do
-        size = size / 1024
-        i = i + 1
-      end
-      return string.format('%.1f%s', size, sufixes[i])
-    end
-    local file = vim.fn.expand('%:p')
-    if string.len(file) == 0 then return '' end
-    return format_file_size(file)
-  end,
-  condition = conditions.buffer_not_empty
-}
-
-ins_left {
-  'filename',
-  condition = conditions.buffer_not_empty,
-  color = {fg = colors.magenta, gui = 'bold'}
-}
-
-ins_left {'filetype', colored = true}
-
-ins_left {'location'}
-
-ins_left {'progress', color = {fg = colors.fg, gui = 'bold'}}
+ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
 
 ins_left {
   'diagnostics',
-  sources = {'nvim_lsp'},
-  symbols = {error = ' ', warn = ' ', info = ' '},
-  color_error = colors.red,
-  color_warn = colors.yellow,
-  color_info = colors.cyan
+  sources = { 'nvim_lsp' },
+  symbols = { error = ' ', warn = ' ', info = ' ' },
+  diagnostics_color = {
+    color_error = { fg = colors.red },
+    color_warn = { fg = colors.yellow },
+    color_info = { fg = colors.cyan },
+  },
 }
 
--- Insert mid section. You can make any number of sections in neovim :)
--- for lualine it's any number greater then 2
-ins_left {function() return '%=' end}
-
-ins_left {
+ins_right {
   -- Lsp server name .
   function()
-    local msg = 'No Active Lsp'
+    local msg = 'None'
     local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
     local clients = vim.lsp.get_active_clients()
-    if next(clients) == nil then return msg end
+    if next(clients) == nil then
+      return msg
+    end
     for _, client in ipairs(clients) do
       local filetypes = client.config.filetypes
       if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
@@ -533,51 +490,24 @@ ins_left {
     end
     return msg
   end,
-  icon = ' LSP:',
-  color = {fg = '#ffffff', gui = 'bold'}
+  icon = '⚙️',
+  color = { fg = '#ffffff', gui = 'bold' },
 }
 
--- Add components to right sections
-ins_right {
-  'o:encoding', -- option component same as &encoding in viml
-  upper = true, -- I'm not sure why it's upper case either ;)
-  condition = conditions.hide_in_width,
-  color = {fg = colors.green, gui = 'bold'}
-}
-
-ins_right {
-  'fileformat',
-  upper = true,
-  icons_enabled = true, -- I think icons are cool but Eviline doesn't have them. sigh
-  color = {fg = colors.green, gui = 'bold'}
-}
-
-
-ins_right {
-  'branch',
-  icon = '',
-  condition = conditions.check_git_workspace,
-  color = {fg = colors.violet, gui = 'bold'}
-}
-
-ins_right {
+ins_left {
   'diff',
   -- Is it me or the symbol for modified us really weird
-  symbols = {added = ' ', modified = '柳 ', removed = ' '},
-  color_added = colors.green,
-  color_modified = colors.orange,
-  color_removed = colors.red
-  -- condition = conditions.hide_in_width
+  symbols = { added = ' ', modified = '柳 ', removed = ' ' },
+  diff_color = {
+    added = { fg = colors.green },
+    modified = { fg = colors.orange },
+    removed = { fg = colors.red },
+  },
+  cond = conditions.hide_in_width,
 }
 
-ins_right {
-  function() return '▊' end,
-  color = {fg = colors.blue},
-  right_padding = 0
-}
+require('lualine').setup(config)
 
--- Now don't forget to initialize lualine
-lualine.setup(config)
 
 HighlightTags = {}
 HighlightTags["!"] = {guifg='#ff2d00'}
@@ -646,8 +576,6 @@ nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_sag
 nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
 " -- preview definition
 nnoremap <silent> gd <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
-" -- or use command
-nnoremap <silent> gd :Lspsaga preview_definition<CR>
 
 set completeopt=menuone,noselect
 
@@ -771,6 +699,7 @@ vim.g.dashboard_preview_pipeline = 'lolcat'
 vim.g.dashboard_preview_file = '~/scripts/nvim_logo.txt'
 vim.g.dashboard_preview_file_height = 20
 vim.g.dashboard_preview_file_width = 80
+
 EOF
 
 let g:dashboard_custom_shortcut={
@@ -784,7 +713,6 @@ let g:dashboard_custom_shortcut={
 \ }
 
 let g:neon_style='dark'
-hi Visual cterm=NONE ctermbg=242 gui=NONE guibg=#1F3546
 
 " folding
 set foldlevel=20
@@ -814,6 +742,10 @@ let g:gruvbox_material_sign_column_background = 'none'
 let g:gruvbox_material_sign_column_background = 'none'
 let g:gruvbox_material_diagnostic_virtual_text = 'colored'
 let g:gruvbox_material_better_performance = 1
+
+lua << EOF
+require'nvim-tree'.setup()
+EOF
 
 " Important!!
 if has('termguicolors')
@@ -857,3 +789,11 @@ endif
 " For dark version.
 set background=dark
 colo neon
+hi Visual cterm=NONE ctermbg=242 gui=NONE guibg=#1F3546
+
+let g:go_fmt_autosave=0
+
+" autocmd FileType javascript javascriptreact setlocal formatprg=prettier\ --single-quote\ --trailing-comma\ es5 ts=2 shiftwidth=2
+" Use formatprg when available
+" let g:neoformat_try_formatprg = 1
+
