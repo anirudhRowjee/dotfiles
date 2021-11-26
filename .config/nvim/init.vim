@@ -18,7 +18,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'jiangmiao/auto-pairs'
 Plug 'hoob3rt/lualine.nvim'
 Plug 'mhinz/vim-signify'
-" Plug 'devanlooches/better-comments-nvim'
+Plug 'devanlooches/better-comments-nvim'
 Plug 'glepnir/dashboard-nvim'
 Plug 'kyazdani42/nvim-tree.lua'
 " IDE Features
@@ -33,8 +33,14 @@ Plug 'diepm/vim-rest-console'
 " LSP Support 
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/lsp_extensions.nvim'
-Plug 'hrsh7th/nvim-compe'
-Plug 'glepnir/lspsaga.nvim'
+" main one
+Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+" 9000+ Snippets
+Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
+" lua & third party sources -- See https://github.com/ms-jpq/coq.thirdparty
+" Need to **configure separately**
+Plug 'ms-jpq/coq.thirdparty', {'branch': '3p'}
+Plug 'tami5/lspsaga.nvim'
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'onsails/lspkind-nvim'
 Plug 'liuchengxu/vista.vim'
@@ -60,7 +66,9 @@ Plug 'ianding1/leetcode.vim'
 " colors
 Plug 'rafamadriz/neon'
 Plug 'RRethy/nvim-base16'
-Plug 'srcery-colors/srcery-vim'
+" Plug 'mangeshrex/uwu.vim'
+Plug 'bluz71/vim-nightfly-guicolors'
+
 " UML diagram support
 Plug 'aklt/plantuml-syntax'
 Plug 'jbyuki/venn.nvim'
@@ -171,6 +179,8 @@ nnoremap <leader>b :BTags<CR>
 " C-Like Mappings
 " nnoremap <leader>cc <CMD>g/\[\vLOG|DEBUG|ERROR\]/normal I// <CR>
 " nnoremap <leader>uc <CMD>g/\[\vLOG|DEBUG|ERROR\]/normal ^3x<CR>
+"
+let g:coq_settings = { 'auto_start': 'shut-up' }
 
 " Git mappings
 nnoremap <leader>gb :GitBlame<CR>
@@ -227,7 +237,7 @@ local on_attach = function(client, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  -- buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
@@ -397,8 +407,8 @@ local config = {
   options = {
     icons_enabled = true,
     theme = 'ayu_dark',
-    component_separators = {'', ''},
-    section_separators = {'', ''},
+    component_separators = {'>', '<'},
+    section_separators = {'>', '<'},
     disabled_filetypes = {}
   },
   sections = {
@@ -407,7 +417,7 @@ local config = {
     lualine_c = {},
     lualine_x = {},
     lualine_y = {'encoding', 'fileformat', 'filetype'},
-    lualine_z = {},
+    lualine_z = {'progress'},
   },
   inactive_sections = {
     lualine_a = {'mode'},
@@ -415,7 +425,7 @@ local config = {
     lualine_c = {},
     lualine_x = {},
     lualine_y = {'encoding', 'fileformat', 'filetype'},
-    lualine_z = {},
+    lualine_z = {'progress'},
   },
   tabline = {},
   extensions = {}
@@ -460,9 +470,7 @@ ins_right {
 	spinner_symbols = { '🌑 ', '🌒 ', '🌓 ', '🌔 ', '🌕 ', '🌖 ', '🌗 ', '🌘 ' },
 }
 
-ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
-
-ins_left {
+ins_right {
   'diagnostics',
   sources = { 'nvim_lsp' },
   symbols = { error = ' ', warn = ' ', info = ' ' },
@@ -494,6 +502,7 @@ ins_right {
   color = { fg = '#ffffff', gui = 'bold' },
 }
 
+
 ins_left {
   'diff',
   -- Is it me or the symbol for modified us really weird
@@ -505,6 +514,9 @@ ins_left {
   },
   cond = conditions.hide_in_width,
 }
+
+-- ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
+-- ins_left {}
 
 require('lualine').setup(config)
 
@@ -579,36 +591,36 @@ nnoremap <silent> gd <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
 
 set completeopt=menuone,noselect
 
-let g:compe = {}
-let g:compe.enabled = v:true
-let g:compe.autocomplete = v:true
-let g:compe.debug = v:false
-let g:compe.min_length = 1
-let g:compe.preselect = 'enable'
-let g:compe.throttle_time = 80
-let g:compe.source_timeout = 200
-let g:compe.resolve_timeout = 800
-let g:compe.incomplete_delay = 400
-let g:compe.max_abbr_width = 100
-let g:compe.max_kind_width = 100
-let g:compe.max_menu_width = 100
-let g:compe.documentation = v:true
-
-let g:compe.source = {}
-let g:compe.source.path = v:true
-let g:compe.source.buffer = v:true
-let g:compe.source.calc = v:true
-let g:compe.source.nvim_lsp = v:true
-let g:compe.source.nvim_lua = v:true
-let g:compe.source.vsnip = v:true
-let g:compe.source.ultisnips = v:true
-let g:compe.source.luasnip = v:true
-let g:compe.source.emoji = v:true
-inoremap <silent><expr> <C-Space> compe#complete()
-inoremap <silent><expr> <CR>      compe#confirm('<CR>')
-inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+" let g:compe = {}
+" let g:compe.enabled = v:true
+" let g:compe.autocomplete = v:true
+" let g:compe.debug = v:false
+" let g:compe.min_length = 1
+" let g:compe.preselect = 'enable'
+" let g:compe.throttle_time = 80
+" let g:compe.source_timeout = 200
+" let g:compe.resolve_timeout = 800
+" let g:compe.incomplete_delay = 400
+" let g:compe.max_abbr_width = 100
+" let g:compe.max_kind_width = 100
+" let g:compe.max_menu_width = 100
+" let g:compe.documentation = v:true
+" 
+" let g:compe.source = {}
+" let g:compe.source.path = v:true
+" let g:compe.source.buffer = v:true
+" let g:compe.source.calc = v:true
+" let g:compe.source.nvim_lsp = v:true
+" let g:compe.source.nvim_lua = v:true
+" let g:compe.source.vsnip = v:true
+" let g:compe.source.ultisnips = v:true
+" let g:compe.source.luasnip = v:true
+" let g:compe.source.emoji = v:true
+" inoremap <silent><expr> <C-Space> compe#complete()
+" inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+" inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+" inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+" inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 
 " Vista.vim config
 " How each level is indented and what to prepend.
@@ -700,6 +712,8 @@ vim.g.dashboard_preview_file = '~/scripts/nvim_logo.txt'
 vim.g.dashboard_preview_file_height = 20
 vim.g.dashboard_preview_file_width = 80
 
+-- vim.g.coq_settings = { 'auto_start': 'shut-up' }
+require("coq")
 EOF
 
 let g:dashboard_custom_shortcut={
@@ -796,4 +810,19 @@ let g:go_fmt_autosave=0
 " autocmd FileType javascript javascriptreact setlocal formatprg=prettier\ --single-quote\ --trailing-comma\ es5 ts=2 shiftwidth=2
 " Use formatprg when available
 " let g:neoformat_try_formatprg = 1
+"
 
+" 🐓 Coq completion settings
+
+" Set recommended to false
+let g:coq_settings = { "keymap.recommended": v:false }
+
+" Keybindings
+ino <silent><expr> <Esc>   pumvisible() ? "\<C-e><Esc>" : "\<Esc>"
+ino <silent><expr> <C-c>   pumvisible() ? "\<C-e><C-c>" : "\<C-c>"
+ino <silent><expr> <BS>    pumvisible() ? "\<C-e><BS>"  : "\<BS>"
+ino <silent><expr> <CR>    pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"
+ino <silent><expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+ino <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<BS>"
+
+" colo nightfox
