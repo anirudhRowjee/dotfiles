@@ -111,9 +111,10 @@ alias noteman="./noteman.py"
 alias dcrt="docker-compose run app sh -c 'python manage.py test'"
 alias zathura="zathura -c .config/zathura/"
 alias zaread="./~/scripts/zaread"
-alias v="vim"
+alias v="nvim"
+alias e="nvim"
 alias vt="vim -c ':term ++curwin'"
-alias nv="~/nvim.appimage"
+alias nv="nvim"
 alias matlab="./matlab/bin/matlab"
 
 # aliases for currently hot directories
@@ -121,7 +122,9 @@ alias goddcol="cd ~/college/sem3/CS206/"
 alias goddco="cd ~/college/sem3/CS201/"
 alias gowt="cd ~/college/sem3/CS204/"
 alias godsal="cd ~/college/sem3/CS207/"
+alias goafll="cd ~/college/sem3/CS205/"
 alias godsa="cd ~/college/sem3/CS202/"
+alias gosds="cd ~/college/sem3/CS203/"
 alias goclg="cd ~/college/sem3/"
 alias ctl="setxkbmap -option ctrl:nocaps"
 
@@ -154,8 +157,8 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
-export VISUAL="$HOME/nvim.appimage"
-export EDITOR="$VISUAL"
+export VISUAL="nvim"
+export EDITOR="nvim"
 
 # rust
 # export PATH="$HOME/.cargo/bin:$PATH"
@@ -183,3 +186,15 @@ man() {
   LESS_TERMCAP_se=$'\e[0m' \
   command man "$@"
 }
+
+# npm stuff
+export PATH="$PATH:/usr/lib/.npm-packages/bin"
+
+# shortcut command to write every day
+alias vw="nvim -c ':call WriteMode()'"
+alias write="cd ~/write && vw $(date +%F).md "
+alias goproxy="gowt && cd projects/proxy/source"
+
+# start starship
+eval "$(starship init zsh)"
+export PATH=”$HOME/.emacs.d/bin:$PATH”

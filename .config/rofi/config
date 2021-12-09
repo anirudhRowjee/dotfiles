@@ -1,27 +1,27 @@
 rofi.combi-modi:                     window,drun,ssh,combi,run
 rofi.modi:                           combi,run
 rofi.width:                          50
-rofi.lines:                          15
+rofi.lines:                          5
 ! "Number of columns" Set from: Default
 ! rofi.columns:                        1
 ! "Font to use" Set from: Default
-rofi.font:                          Ubuntu 10.5
+rofi.font:                          Iosevka 25
 ! "Border width" Set from: Default
-! rofi.bw:                             5
+! rofi.bw:                             1
 ! "Location on screen" Set from: Default
 ! rofi.location:                       0
 ! "Padding" Set from: Default
-! rofi.padding:                        5
+! rofi.padding:                        7
 ! "Y-offset relative to location" Set from: Default
 ! rofi.yoffset:                        0
 ! "X-offset relative to location" Set from: Default
 ! rofi.xoffset:                        0
 ! "Always show number of lines" Set from: Default
-! rofi.fixed-num-lines:                true
+! rofi.fixed-num-lines:                false
 ! "Whether to load and show icons" Set from: Default
 rofi.show-icons:                     true
 ! "Terminal to use" Set from: Default
-rofi.terminal:                       gnome-terminal
+rofi.terminal:                       kitty
 ! "Ssh client to use" Set from: Default
 rofi.ssh-client:                     ssh
 ! "Theme to use to look for icons" Set from: Default
@@ -29,7 +29,7 @@ rofi.drun-icon-theme:               numix-circle-light
 ! "Desktop entry fields to match in drun" Set from: Default
 rofi.drun-match-fields:              name,generic,exec,categories
 ! "Row height (in chars)" Set from: Default
-! rofi.eh:                             1
+! rofi.eh:                             3
 ! "Click outside the window to exit" Set from: Default
 rofi.click-to-exit:                  true
 rofi.theme        :                  DarkBlue
