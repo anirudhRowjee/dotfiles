@@ -315,5 +315,10 @@ bind N new-window
 bind | split-window -h
 bind - split-window -v
 
+bind -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "xclip -i -f -selection primary | xclip -i -selection clipboard"
+
 set -g default-shell /bin/zsh
+
+set-option -g default-terminal "screen-256color"
+
 #vim ft=dosini;
