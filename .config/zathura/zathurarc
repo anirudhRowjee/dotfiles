@@ -13,45 +13,44 @@
 #
 # zathurarc-dark
 
-set font "inconsolata 9"
+set font "Iosevka Term 12"
 set selection-clipboard clipboard
 
 
-# Base16 Equilibrium Dark
-# Author: Carlo Abelli
+set notification-error-bg       "#2E3440"
+set notification-error-fg       "#BF616A"
+set notification-warning-bg     "#2E3440"
+set notification-warning-fg     "#D08770"
+set notification-bg             "#2E3440"
+set notification-fg             "#D8DEE9"
 
-set default-bg                  "#0c1118"
-set default-fg                  "#181c22"
+set completion-bg               "#2E3440"
+set completion-fg               "#D8DEE9"
+set completion-group-bg         "#3B4252"
+set completion-group-fg         "#D8DEE9"
+set completion-highlight-bg     "#88C0D0"
+set completion-highlight-fg     "#3B4252"
 
-set statusbar-fg                "#949088"
-set statusbar-bg                "#22262d"
+set index-bg                    "#2E3440"
+set index-fg                    "#8FBCBB"
+set index-active-bg             "#8FBCBB"
+set index-active-fg             "#2E3440"
 
-set inputbar-bg                 "#0c1118"
-set inputbar-fg                 "#e7e2d9"
+set inputbar-bg                 "#2E3440"
+set inputbar-fg                 "#E5E9F0"
 
-set notification-bg             "#0c1118"
-set notification-fg             "#e7e2d9"
+set statusbar-bg                "#2E3440"
+set statusbar-fg                "#E5E9F0"
 
-set notification-error-bg       "#0c1118"
-set notification-error-fg       "#f04339"
+set highlight-color             "#D08770"
+set highlight-active-color      "#BF616A"
 
-set notification-warning-bg     "#0c1118"
-set notification-warning-fg     "#f04339"
+set default-bg                  "#2E3440"
+set default-fg                  "#D8DEE9"
+set render-loading              "true"
+set render-loading-bg           "#2E3440"
+set render-loading-fg           "#434C5E"
 
-set highlight-color             "#bb8801"
-set highlight-active-color      "#008dd1"
-
-set completion-bg               "#181c22"
-set completion-fg               "#008dd1"
-
-set completion-highlight-fg     "#e7e2d9"
-set completion-highlight-bg     "#008dd1"
-
-set recolor-lightcolor          "#0c1118"
-set recolor-darkcolor           "#cac6bd"
+set recolor-lightcolor          "#2E3440"
+set recolor-darkcolor           "#ECEFF4"
 set recolor                     "true"
-set recolor-keephue             "false"
-
-map r reload
-
-#vim ft=dosni

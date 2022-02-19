@@ -192,23 +192,23 @@ for_window [title="Shutdown options"] floating enable
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 #  finds out, if available)
-bar {
-	status_command ~/.cargo/bin/i3status-rs
-	# strip_workspace_numbers yes
-    position top
-    font pango:DejaVu Sans Mono Nerd Font 8, FontAwesome 8
-    tray_output primary
-    binding_mode_indicator yes
-    colors {
-        separator #666666
-        background #00000011
-        statusline #dddddd
-        focused_workspace #0088CC #0088CC #ffffff
-        active_workspace #333333 #333333 #ffffff
-        inactive_workspace #333333 #333333 #888888
-        urgent_workspace #2f343a #900000 #ffffff
-    }
-}
+# bar {
+# 	status_command ~/.cargo/bin/i3status-rs
+# 	# strip_workspace_numbers yes
+#     position top
+#     font pango:DejaVu Sans Mono Nerd Font 8, FontAwesome 8
+#     tray_output primary
+#     binding_mode_indicator yes
+#     colors {
+#         separator #666666
+#         background #00000011
+#         statusline #dddddd
+#         focused_workspace #0088CC #0088CC #ffffff
+#         active_workspace #333333 #333333 #ffffff
+#         inactive_workspace #333333 #333333 #888888
+#         urgent_workspace #2f343a #900000 #ffffff
+#     }
+# }
 
 # bar is hidden by default, toggle with alt+m
 # bindsym $mod+m bar mode toggle
@@ -218,11 +218,12 @@ exec_always --no-startup-id nm-applet
 exec_always --no-startup-id xbacklight -s 100%
 exec_always --no-startup-id blueman-applet
 exec_always --no-startup-id xfce4-power-manager
-exec_always --no-startup-id compton
+exec_always --no-startup-id flameshot
+exec_always --no-startup-id picom
 # exec_always --no-startup-id slimbookbattery
 
 # disable borders
-for_window [class=".*"] border pixel 1
+for_window [class="^.*"] border pixel 0
 for_window [class="floating"] border pixel 1
 
 # screencasting setup
@@ -238,6 +239,7 @@ exec_always --no-startup-id i3-workspace-names-daemon
 exec_always --no-startup-id setxkbmap -option keypad:pointerkeys
 exec_always --no-startup-id setxkbmap -option caps:escape
 exec_always --no-startup-id setxkbmap -option ctrl:nocaps
+exec_always --no-startup-id dunst
 exec_always --no-startup-id xkbmap -bo 2
 exec_always --no-startup-id xkbmap -r 0
 exec_always --no-startup-id xkbset ma 50 20 20 30 3000
@@ -258,6 +260,7 @@ bindsym $mod+shift+f exec google-chrome
 bindsym $mod+shift+u exec qutebrowser
 bindsym $mod+shift+d exec discord
 bindsym $mod+shift+s exec gnome-control-center
+bindsym $mod+e exec emacs
 bindsym $mod+shift+t exec teams-for-linux
 bindsym $mod+Shift+w exec "./nmcli-rofi/nmcli-rofi"
 bindsym $mod+Shift+b exec "./rofi-bluetooth/rofi-bluetooth"
@@ -283,7 +286,7 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000 #0c0c0c
 
 client.background       #ffffff
 
-smart_borders on
+# smart_borders on
 
 # gaps
 gaps inner 7
@@ -292,4 +295,6 @@ gaps inner 7
 # title
 title_align center
 
-#vim ft=dosni;
+exec_always "~/.config/polybar/forest/launch.sh && sleep 5s && ~/.config/polybar/forest/launch.sh"
+# exec_always "~/scripts/fix_60fps.sh"
+#vim ft=rasi;

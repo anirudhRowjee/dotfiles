@@ -196,5 +196,5 @@ alias write="cd ~/write && vw $(date +%F).md "
 alias goproxy="gowt && cd projects/proxy/source"
 
 # start starship
-eval "$(starship init zsh)"
+# eval "$(starship init zsh)"
 export PATH=”$HOME/.emacs.d/bin:$PATH”

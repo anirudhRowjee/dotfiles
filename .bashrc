@@ -57,7 +57,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-	PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+	PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] \$(git branch 2>/dev/null | grep '^*' | colrm 1 2) \$ "
 else
 	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -134,12 +134,7 @@ alias nv="nvim"
 alias matlab="./matlab/bin/matlab"
 
 # aliases for currently hot directories
-alias gomath="cd ~/college/sem2/UE20MA151/"
-alias gophy="cd ~/college/sem2/UE20PH101/"
-alias gocs="cd ~/college/sem2/UE20CS151/"
-alias goelec="cd ~/college/sem2/UE20EE101/"
-alias gomech="cd ~/college/sem2/UE20ME101/"
-alias goclg="cd ~/college/sem2/"
+alias goclg="cd ~/college/sem4/"
 
 alias j="./scripts/dir-switcher.sh"
 alias p="python3"
@@ -173,7 +168,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
+if command -v pyenv 2>/dev/null 2>&1; then
  eval "$(pyenv init -)"
 fi
 
@@ -182,3 +177,82 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 . "$HOME/.cargo/env"
+
+
+set -o vi
+alias mp3down="youtube-dl --extract-audio --audio-format mp3 -o '%(title)s.%(ext)s'"
+alias actenv="source env/bin/activate"
+alias makenv="virtualenv --python=python3 env"
+alias readmd="clear && $HOME/scripts/mdreader.py"
+alias greet="clear && fortune | cowsay | lolcat"
+alias filezf="fzf --layout reverse --info inline --border  --preview 'pygmentize -f terminal {}' --preview-window right:60%:noborder --color 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#223344,border:#778899'"
+alias noteman="./noteman.py"
+alias dcrt="docker-compose run app sh -c 'python manage.py test'"
+alias zathura="zathura -c .config/zathura/"
+alias zaread="./~/scripts/zaread"
+alias v="nvim"
+alias e="nvim"
+alias vt="vim -c ':term ++curwin'"
+alias nv="nvim"
+alias matlab="./matlab/bin/matlab"
+
+alias minecraft="java -jar ~/minecraft/TLauncher-2.8.jar"
+alias jflap="java -jar ~/jflap/JFLAP7.1.jar"
+
+export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --margin=1,4 --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
+
+# fzf ripgrep
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+
+# go
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv 1>/dev/null 2>&1; then
+ eval "$(pyenv init -)"
+fi
+export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
+
+man() {
+  GROFF_NO_SGR=1 \
+  LESS_TERMCAP_md=$'\e[1;31m' \
+  LESS_TERMCAP_me=$'\e[0m' \
+  LESS_TERMCAP_us=$'\e[1;34m' \
+  LESS_TERMCAP_ue=$'\e[0m' \
+  LESS_TERMCAP_so=$'\e[1;35m' \
+  LESS_TERMCAP_se=$'\e[0m' \
+  command man "$@"
+}
+
+# npm stuff
+export PATH="$PATH:/usr/lib/.npm-packages/bin"
+
+# shortcut command to write every day
+alias vw="nvim -c ':call WriteMode()'"
+alias write="cd ~/write && vw $(date +%F).md "
+alias v="nvim"
+
+alias ctl="setxkbmap -option ctrl:nocaps"
+
+alias gopvl="cd ~/pesu/pvl"
+alias gohsp="cd ~/pesu/hackerspace_ecc/"
+
+alias gompca="cd ~/college/sem4/CS252/"
+alias godaa="cd ~/college/sem4/CS251/"
+alias gocn="cd ~/college/sem4/CS254/"
+alias goos="cd ~/college/sem4/CS253/"
+alias gola="cd ~/college/sem4/MA251/"
+alias gocie="cd ~/college/sem4/CIE_L1/"
+
+# alias to compile and debug single assembly file
+# after this, "target remote localhost:12345" "layout asm" "layout reg"
+alias cda="~/scripts/debug_asm.sh"
+
+# convert a document to PDF with some nice CSS
+alias mkpdf="md2pdf --stylesheet https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
+alias armsim="mono ~/armsim/ARMSim.exe"
+alias fb="sudo brightnessctl s 120000"
+export LC_CTYPE=en_US.UTF-8 
