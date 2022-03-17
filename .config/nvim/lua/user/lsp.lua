@@ -22,6 +22,10 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   }
 )
 
+local lspsaga = require('lspsaga')
+lspsaga.setup()
+
+
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
@@ -78,3 +82,4 @@ lsp_installer.on_server_ready(function(server)
     -- finally, setup the server
     server:setup(opts)
 end)
+

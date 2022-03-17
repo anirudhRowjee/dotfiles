@@ -3,7 +3,7 @@ require('colorizer').setup({})              -- know your colors
 
 require'lsp_extensions'.inlay_hints{ prefix = '  λ  ', highlight =  "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
 
-vim.notify = require("notify")
+-- vim.notify = require("notify")
 
 vim.cmd [[
 " Keybindings

@@ -50,6 +50,8 @@ return packer.startup(function(use)
   use "windwp/nvim-autopairs"               -- Autopairs, integrates with both cmp and treesitter
   use "numToStr/Comment.nvim"               -- Easily comment stuff
 
+use { 'tami5/lspsaga.nvim', branch = 'nvim6.0' or 'nvim51' } -- for specific version
+
   use "kyazdani42/nvim-web-devicons"        -- icons
   use "kyazdani42/nvim-tree.lua"            -- file manager
 
@@ -71,6 +73,7 @@ return packer.startup(function(use)
   use "rebelot/kanagawa.nvim"
   use "ellisonleao/gruvbox.nvim"
     use 'ful1e5/onedark.nvim'
+use 'ingram1107/vim-zhi'
   -- Completion Segment  // not touching this right now
   use "hrsh7th/nvim-cmp"                    -- The completion plugin
   use "hrsh7th/cmp-buffer"                  -- buffer completions

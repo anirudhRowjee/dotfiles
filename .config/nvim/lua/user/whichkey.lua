@@ -155,6 +155,14 @@ local mappings = {
       "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
       "Workspace Symbols",
     },
+    p = {
+        "<cmd>lua require'lspsaga.provider'.preview_definition()<cr>",
+        "Preview Definition"
+    },
+    g = {
+        "<cmd>lua require'lspsaga.provider'.lsp_finder()<cr>",
+        "Global Search"
+    },
   },
   s = {
     name = "Search",

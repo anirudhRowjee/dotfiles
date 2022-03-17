@@ -247,6 +247,9 @@ alias goos="cd ~/college/sem4/CS253/"
 alias gola="cd ~/college/sem4/MA251/"
 alias gocie="cd ~/college/sem4/CIE_L1/"
 
+alias c="goclg && ranger"
+alias gomtc="cd ~/projects/mtc/"
+
 # alias to compile and debug single assembly file
 # after this, "target remote localhost:12345" "layout asm" "layout reg"
 alias cda="~/scripts/debug_asm.sh"
@@ -256,3 +259,7 @@ alias mkpdf="md2pdf --stylesheet https://unpkg.com/@picocss/pico@latest/css/pico
 alias armsim="mono ~/armsim/ARMSim.exe"
 alias fb="sudo brightnessctl s 120000"
 export LC_CTYPE=en_US.UTF-8 
+export PATH=/home/anirudh/.pyenv/bin:/home/anirudh/.pyenv/bin:/home/anirudh/.cargo/bin:/home/anirudh/.pyenv/bin:/home/anirudh/.cargo/bin:/home/anirudh/.local/bin:/home/anirudh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/anirudh/.fzf/bin:/home/anirudh/chomper/bin:/usr/local/go/bin:/home/anirudh/go/bin:/usr/lib/.npm-packages/bin:/usr/local/go/bin
+
+export LC_ALL=en_IN.UTF-8
+export LANG=en_IN.UTF-8

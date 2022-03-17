@@ -18,4 +18,5 @@ require'nvim-treesitter.configs'.setup {
   ensure_installed = {'org'}, -- Or run :TSUpdate org
 }
 
+require('orgmode').setup_ts_grammar()
 require('orgmode').setup{}

@@ -189,6 +189,11 @@ _G.packer_plugins = {
     path = "/home/anirudh/.local/share/nvim/site/pack/packer/start/lsp_extensions.nvim",
     url = "https://github.com/nvim-lua/lsp_extensions.nvim"
   },
+  ["lspsaga.nvim"] = {
+    loaded = true,
+    path = "/home/anirudh/.local/share/nvim/site/pack/packer/start/lspsaga.nvim",
+    url = "https://github.com/tami5/lspsaga.nvim"
+  },
   ["lualine-lsp-progress"] = {
     loaded = true,
     path = "/home/anirudh/.local/share/nvim/site/pack/packer/start/lualine-lsp-progress",
@@ -385,6 +390,11 @@ _G.packer_plugins = {
     path = "/home/anirudh/.local/share/nvim/site/pack/packer/start/vim-table-mode",
     url = "https://github.com/dhruvasagar/vim-table-mode"
   },
+  ["vim-zhi"] = {
+    loaded = true,
+    path = "/home/anirudh/.local/share/nvim/site/pack/packer/start/vim-zhi",
+    url = "https://github.com/ingram1107/vim-zhi"
+  },
   ["which-key.nvim"] = {
     loaded = true,
     path = "/home/anirudh/.local/share/nvim/site/pack/packer/start/which-key.nvim",
@@ -402,5 +412,6 @@ if should_profile then save_profiles() end
 end)
 
 if not no_errors then
+  error_msg = error_msg:gsub('"', '\\"')
   vim.api.nvim_command('echohl ErrorMsg | echom "Error in packer_compiled: '..error_msg..'" | echom "Please check your config for correctness" | echohl None')
 end
