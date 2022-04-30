@@ -113,7 +113,7 @@ use 'ingram1107/vim-zhi'
   -- Git
   use "lewis6991/gitsigns.nvim"
   use "zivyangll/git-blame.vim"
-  use "Pocco81/DAPInstall.nvim"
+  use "Pocco81/dap-buddy.nvim"
 
   -- Debugger
   use 'mfussenegger/nvim-dap'
@@ -137,6 +137,8 @@ use 'ingram1107/vim-zhi'
   use "simrat39/rust-tools.nvim"            -- even better
   -- Go
   use "fatih/vim-go"                        -- strong defaults for go
+  -- flutter
+    use {'akinsho/flutter-tools.nvim', requires = 'nvim-lua/plenary.nvim'}
 
   -- nice UI Things
   use "junegunn/goyo.vim"

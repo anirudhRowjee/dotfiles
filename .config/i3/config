@@ -10,7 +10,7 @@
 exec_always --no-startup-id "autorandr --change"
 
 set $mod Mod1
-set $sc_term --no-startup-id kitty --name dropdown
+set $sc_term --no-startup-id kitty --name dropdown tmux
 set $brightness 100
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -38,7 +38,7 @@ bindsym $mod+Return exec kitty tmux -u
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec "rofi -combi-modi window,drun,ssh,run -show combi -modi combi,run,drun,ssh"
+bindsym $mod+d exec ~/.config/rofi/launchers/misc/launcher.sh
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -78,9 +78,9 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-# bindsym $mod+s layout stacking
-# bindsym $mod+w layout tabbed
-# bindsym $mod+e layout toggle split
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -158,7 +158,7 @@ mode "volume" {
 	bindsym Escape mode "default"
 }
 
-bindsym $mod+s mode "volume"
+# bindsym $mod+s mode "volume"
 
 mode "music" {
         # simple music and player controls
@@ -219,7 +219,7 @@ exec_always --no-startup-id xbacklight -s 100%
 exec_always --no-startup-id blueman-applet
 exec_always --no-startup-id xfce4-power-manager
 exec_always --no-startup-id flameshot
-exec_always --no-startup-id picom
+exec_always --no-startup-id picom -b
 # exec_always --no-startup-id slimbookbattery
 
 # disable borders
@@ -230,7 +230,7 @@ for_window [class="floating"] border pixel 1
 for_window [title="video0 - mpv"] floating enable
 for_window [title="video0 - mpv"] sticky enable
 
-exec_always --no-startup-id feh  --bg-fill ~/Pictures/wallpapers/tatyana-dobreva-i6Wc5qZO5MQ-unsplash.jpg
+exec_always --no-startup-id feh  --bg-fill ~/Pictures/wallpapers/konstantin-kleine-V1NVvXmO_dk-unsplash.jpg
 exec_always --no-startup-id i3-workspace-names-daemon
 # exec_always --no-startup-id pkill compton && compton
 
@@ -260,7 +260,7 @@ bindsym $mod+shift+f exec google-chrome
 bindsym $mod+shift+u exec qutebrowser
 bindsym $mod+shift+d exec discord
 bindsym $mod+shift+s exec gnome-control-center
-bindsym $mod+e exec emacs
+# bindsym $mod+e exec emacs
 bindsym $mod+shift+t exec teams-for-linux
 bindsym $mod+Shift+w exec "./nmcli-rofi/nmcli-rofi"
 bindsym $mod+Shift+b exec "./rofi-bluetooth/rofi-bluetooth"
@@ -268,8 +268,8 @@ bindsym $mod+Shift+z exec "zathura -c ~/.config/zathura"
 bindsym $mod+Shift+p exec pavucontrol
 bindsym $mod+Shift+n exec "./~/notion-linux-x64/notion"
 bindsym $mod+Shift+o exec obsidian
-bindsym $mod+l exec "/opt/google/chrome/google-chrome --profile-directory=Default --app-id=bgdbmehlmdmddlgneophbcddadgknlpm"
-bindsym $mod+w exec gnome-terminal -e 'ranger'
+# bindsym $mod+l exec "/opt/google/chrome/google-chrome --profile-directory=Default --app-id=bgdbmehlmdmddlgneophbcddadgknlpm"
+# bindsym $mod+w exec gnome-terminal -e 'ranger'
 exec_always --no-startup-id i3-msg split h
 
 # brightness controls
@@ -290,11 +290,12 @@ client.background       #ffffff
 
 # gaps
 gaps inner 7
+gaps outer 3
 
 
 # title
 title_align center
 
-exec_always "~/.config/polybar/forest/launch.sh && sleep 5s && ~/.config/polybar/forest/launch.sh"
+exec_always "~/.config/polybar/forest/launch.sh"
 # exec_always "~/scripts/fix_60fps.sh"
 #vim ft=rasi;

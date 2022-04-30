@@ -256,10 +256,17 @@ alias cda="~/scripts/debug_asm.sh"
 
 # convert a document to PDF with some nice CSS
 alias mkpdf="md2pdf --stylesheet https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
-alias armsim="mono ~/armsim/ARMSim.exe"
+alias armsim="~/armsim.sh"
 alias fb="sudo brightnessctl s 120000"
 export LC_CTYPE=en_US.UTF-8 
 export PATH=/home/anirudh/.pyenv/bin:/home/anirudh/.pyenv/bin:/home/anirudh/.cargo/bin:/home/anirudh/.pyenv/bin:/home/anirudh/.cargo/bin:/home/anirudh/.local/bin:/home/anirudh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/anirudh/.fzf/bin:/home/anirudh/chomper/bin:/usr/local/go/bin:/home/anirudh/go/bin:/usr/lib/.npm-packages/bin:/usr/local/go/bin
 
 export LC_ALL=en_IN.UTF-8
 export LANG=en_IN.UTF-8
+export PATH=/home/anirudh/.pyenv/bin:/home/anirudh/.pyenv/bin:/home/anirudh/.cargo/bin:/home/anirudh/.pyenv/bin:/home/anirudh/.cargo/bin:/home/anirudh/.local/bin:/home/anirudh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/anirudh/.fzf/bin:/home/anirudh/chomper/bin:/usr/local/go/bin:/home/anirudh/go/bin:/usr/lib/.npm-packages/bin:/usr/local/go/bin:/usr/local/go/bin
+alias sb='source ~/.bashrc'
+alias python='python3'
+alias gp='cd ~/projects/dotslash-three/'
+alias hw="echo 'homebrew.hsp-ec.xyz' | cowsay | lolcat"
+
+greet

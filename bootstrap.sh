@@ -15,8 +15,10 @@ sudo apt install yadm
 ## Python
 sudo apt install python3-pip
 sudo pip3 install virtualenv
+
 ## Rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
 ## Go
 curl https://golang.org/dl/go1.16.7.linux-amd64.tar.gz 
 rm -rf /usr/local/go && tar -C /usr/local -xzf go1.16.7.linux-amd64.tar.gz
@@ -27,6 +29,7 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 ### install node thorugh APT
 sudo apt install -y nodejs
 npm install -g npm@latest
+
 ## Lisp
 sudo add-apt-repository ppa:plt/racket
 sudo apt-get update
