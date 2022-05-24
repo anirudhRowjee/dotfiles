@@ -128,8 +128,8 @@ ins_right {
     end
     return msg
   end,
-  icon = ' ⚙️ ',
-  color = { fg = '#ffffff', gui = 'bold' },
+  icon = '⚙️ ',
+  color = { fg = '#ffffff'},
 }
 
 
@@ -147,6 +147,7 @@ ins_left {
 
 -- ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
 -- ins_left {}
+
 require('lualine').setup(config)
 
 

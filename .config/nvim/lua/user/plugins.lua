@@ -67,13 +67,16 @@ use { 'tami5/lspsaga.nvim', branch = 'nvim6.0' or 'nvim51' } -- for specific ver
   use "folke/which-key.nvim"                -- keymap explainer, very neat
 
   use 'norcalli/nvim-colorizer.lua'         -- actually colors the things you want in color
+  use 'kdheepak/lazygit.nvim'
 
   -- COLORSCHEMES --
   use "rafamadriz/neon"
   use "rebelot/kanagawa.nvim"
   use "ellisonleao/gruvbox.nvim"
-    use 'ful1e5/onedark.nvim'
-use 'ingram1107/vim-zhi'
+  use 'ful1e5/onedark.nvim'
+  use 'ingram1107/vim-zhi'
+  use 'tanvirtin/monokai.nvim'
+
   -- Completion Segment  // not touching this right now
   use "hrsh7th/nvim-cmp"                    -- The completion plugin
   use "hrsh7th/cmp-buffer"                  -- buffer completions
@@ -82,6 +85,21 @@ use 'ingram1107/vim-zhi'
   use "saadparwaiz1/cmp_luasnip"            -- snippet completions
   use "hrsh7th/cmp-nvim-lsp"
 
+
+    use {
+      'declancm/cinnamon.nvim',
+      config = function() require('cinnamon').setup() end
+    }
+ use {
+    'jedrzejboczar/toggletasks.nvim',
+    requires = {
+        'nvim-lua/plenary.nvim',
+        'akinsho/toggleterm.nvim',
+        'nvim-telescope/telescope.nvim/',
+    },
+    -- To enable YAML config support
+    rocks = 'lyaml',
+}
   -- snippets
   use "L3MON4D3/LuaSnip"                    --snippet engine
   use "rafamadriz/friendly-snippets"        -- a bunch of snippets to use
@@ -132,6 +150,8 @@ use 'ingram1107/vim-zhi'
   -- Markdown
   use "dhruvasagar/vim-table-mode"          -- Easy Table Operations like you won't believe 
   use "jbyuki/venn.nvim"                    -- cool ASCII diagrams directly
+  use 'iamcco/markdown-preview.nvim'
+
   -- Rust
   use "rust-lang/rust.vim"                  -- this one really cool
   use "simrat39/rust-tools.nvim"            -- even better

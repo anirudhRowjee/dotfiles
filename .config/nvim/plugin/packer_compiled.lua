@@ -94,6 +94,12 @@ _G.packer_plugins = {
     path = "/home/anirudh/.local/share/nvim/site/pack/packer/start/bufferline.nvim",
     url = "https://github.com/akinsho/bufferline.nvim"
   },
+  ["cinnamon.nvim"] = {
+    config = { "\27LJ\2\n6\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\rcinnamon\frequire\0" },
+    loaded = true,
+    path = "/home/anirudh/.local/share/nvim/site/pack/packer/start/cinnamon.nvim",
+    url = "https://github.com/declancm/cinnamon.nvim"
+  },
   ["cmp-buffer"] = {
     loaded = true,
     path = "/home/anirudh/.local/share/nvim/site/pack/packer/start/cmp-buffer",
@@ -189,6 +195,11 @@ _G.packer_plugins = {
     path = "/home/anirudh/.local/share/nvim/site/pack/packer/start/kanagawa.nvim",
     url = "https://github.com/rebelot/kanagawa.nvim"
   },
+  ["lazygit.nvim"] = {
+    loaded = true,
+    path = "/home/anirudh/.local/share/nvim/site/pack/packer/start/lazygit.nvim",
+    url = "https://github.com/kdheepak/lazygit.nvim"
+  },
   ["lsp_extensions.nvim"] = {
     loaded = true,
     path = "/home/anirudh/.local/share/nvim/site/pack/packer/start/lsp_extensions.nvim",
@@ -208,6 +219,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/anirudh/.local/share/nvim/site/pack/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
+  },
+  ["monokai.nvim"] = {
+    loaded = true,
+    path = "/home/anirudh/.local/share/nvim/site/pack/packer/start/monokai.nvim",
+    url = "https://github.com/tanvirtin/monokai.nvim"
   },
   neon = {
     loaded = true,
@@ -408,6 +424,10 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: cinnamon.nvim
+time([[Config for cinnamon.nvim]], true)
+try_loadstring("\27LJ\2\n6\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\rcinnamon\frequire\0", "config", "cinnamon.nvim")
+time([[Config for cinnamon.nvim]], false)
 -- Config for: nvim-spotify
 time([[Config for nvim-spotify]], true)
 try_loadstring("\27LJ\2\n‘\1\0\0\4\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\1\2\0005\3\3\0B\1\2\1K\0\1\0\1\0\1\18refresh_tokenà\1AQCY8v8ivGHPmEQen0NVbFz_N21Lc_5qHNZbVOOERfFuqD8ekNXxVoKT31qnxCvDPbh_uoKFV2a33Uexc2v5JCCL_qpD6UQm6WbnxjJisNuwMLBZoXfQCQQfbS8UcWGolY8\nsetup\17nvim-spotify\frequire\0", "config", "nvim-spotify")

@@ -28,9 +28,10 @@ require("onedark").setup({
   comment_style="italic",
   function_style = "italic",
   dark_float = true,
+  dark_sidebar = true,
   highlight_linenumber = true,
-  transparent = true,
-  transparent_sidebar = true,
+  -- transparent = true,
+  -- transparent_sidebar = true,
 
   sidebars = {"qf", "vista_kind", "terminal", "packer"},
 
@@ -39,7 +40,7 @@ require("onedark").setup({
         hint = "orange0",
         error = "#ff0000",
         bg0 = "#010409",
-        -- bg1 = "#0D1117",
+        bg1 = "#010409",
         -- fg0 = "#0D1117",
         -- bg1 = "#0D1117",
     },
@@ -55,3 +56,7 @@ require("onedark").setup({
   end
 })
 
+vim.cmd [[
+    hi clear SignColumn
+    hi clear LineNr
+]]

@@ -2,6 +2,7 @@ require('rust-tools').setup({})             -- TODO get doc comment highlighting
 require('colorizer').setup({})              -- know your colors
 require("flutter-tools").setup{} -- use defaults
 require'lsp_extensions'.inlay_hints{ prefix = '  λ  ', highlight =  "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
+require('toggletasks').setup{}
 
 require("notify").setup({
 

@@ -25,8 +25,8 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
-(setq doom-font (font-spec :family "Iosevka" :size 14 :weight 'light)
+(setq doom-theme 'doom-rouge)
+(setq doom-font (font-spec :family "Iosevka Term" :size 15 :weight 'light)
       doom-variable-pitch-font (font-spec :family "Iosevka" :size 12)
       )
 
@@ -168,3 +168,6 @@
 (setq-default elfeed-search-title-min-width 100)
 
 (global-set-key (kbd "C-x w") 'elfeed)
+
+(after! lsp-rust
+  (setq lsp-rust-server 'rust-analyzer))
