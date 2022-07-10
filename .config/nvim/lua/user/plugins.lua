@@ -86,20 +86,33 @@ use { 'tami5/lspsaga.nvim', branch = 'nvim6.0' or 'nvim51' } -- for specific ver
   use "hrsh7th/cmp-nvim-lsp"
 
 
+  -- window management and maximizer
     use {
-      'declancm/cinnamon.nvim',
-      config = function() require('cinnamon').setup() end
+        'declancm/windex.nvim',
+        config = function() require('windex').setup() end
     }
- use {
-    'jedrzejboczar/toggletasks.nvim',
-    requires = {
-        'nvim-lua/plenary.nvim',
-        'akinsho/toggleterm.nvim',
-        'nvim-telescope/telescope.nvim/',
-    },
-    -- To enable YAML config support
-    rocks = 'lyaml',
-}
+
+    use {
+        'declancm/cinnamon.nvim',
+        config = function() require('cinnamon').setup() end
+    }
+
+    use {
+        'jedrzejboczar/toggletasks.nvim',
+        requires = {
+            'nvim-lua/plenary.nvim',
+            'akinsho/toggleterm.nvim',
+            'nvim-telescope/telescope.nvim/',
+        },
+        -- To enable YAML config support
+        rocks = 'lyaml',
+    }
+
+
+    -- Workspaces
+    use "natecraddock/workspaces.nvim"
+    use "natecraddock/sessions.nvim"
+
   -- snippets
   use "L3MON4D3/LuaSnip"                    --snippet engine
   use "rafamadriz/friendly-snippets"        -- a bunch of snippets to use
@@ -162,26 +175,14 @@ use { 'tami5/lspsaga.nvim', branch = 'nvim6.0' or 'nvim51' } -- for specific ver
 
   -- nice UI Things
   use "junegunn/goyo.vim"
+  use "junegunn/limelight.vim"
   use "rcarriga/nvim-notify"
-
-  -- use "mhinz/vim-signify"
 
   -- Miscellaneous
   use "nvim-orgmode/orgmode"
+  use "pbrisbin/vim-mkdir"
   -- consider leetcode
--- Lua
-    use {
-        'KadoBOT/nvim-spotify', 
-        requires = 'nvim-telescope/telescope.nvim',
-        config = function()
-            local spotify = require'nvim-spotify'
 
-            spotify.setup {
-                refresh_token = "AQCY8v8ivGHPmEQen0NVbFz_N21Lc_5qHNZbVOOERfFuqD8ekNXxVoKT31qnxCvDPbh_uoKFV2a33Uexc2v5JCCL_qpD6UQm6WbnxjJisNuwMLBZoXfQCQQfbS8UcWGolY8"
-            }
-        end,
-        run = 'make'
-    }
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if PACKER_BOOTSTRAP then

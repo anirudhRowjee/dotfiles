@@ -77,6 +77,7 @@ nvim_tree.setup {
     timeout = 500,
   },
   view = {
+    adaptive_size = true,
     width = 30,
     height = 30,
     hide_root_folder = false,
@@ -97,6 +98,23 @@ nvim_tree.setup {
     cmd = "trash",
     require_confirm = true,
   },
+    renderer = {
+        add_trailing = false,
+        group_empty = false,
+        highlight_git = false,
+        full_name = false,
+        highlight_opened_files = "none",
+        root_folder_modifier = ":~",
+        indent_markers = {
+            enable = false,
+            icons = {
+                corner = "└ ",
+                edge = "│ ",
+                item = "│ ",
+                none = "  ",
+            },
+        },
+    },
   quit_on_open = 0,
   git_hl = 1,
   disable_window_picker = 0,

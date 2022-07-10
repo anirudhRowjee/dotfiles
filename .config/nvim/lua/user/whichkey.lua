@@ -91,9 +91,16 @@ local mappings = {
   ["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
   ["f"] = { "<cmd>:Files<CR>", "Find files" },
   ["F"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
-  ["P"] = { "<cmd>Telescope projects<cr>", "Projects" },
+  -- ["P"] = { "<cmd>Telescope workspaces<cr>", "Workspaces" },
+  ["z"] = {"<cmd>:lua require('windex').toggle_nvim_maximize()<CR>", "toggle maximize"},
 
   p = {
+    name = "Projects / Workspaces",
+    p = {"<cmd>Telescope workspaces<CR>", "List All Projects"},
+    a = {":WorkspacesAdd NAME .", "List All Projects"},
+  },
+
+  P = {
     name = "Packer",
     c = { "<cmd>PackerCompile<cr>", "Compile" },
     i = { "<cmd>PackerInstall<cr>", "Install" },
@@ -137,7 +144,12 @@ local mappings = {
       "Workspace Diagnostics",
     },
     f = { "<cmd>lua vim.lsp.buf.formatting()<cr>", "Format" },
-    i = { "<cmd>LspInfo<cr>", "Info" },
+    -- this -v is kinda useless ngl
+    -- i = { "<cmd>LspInfo<cr>", "Info" },
+        --
+    i = {"<cmd>Telescope lsp_implementations<cr>", "See Implementations"},
+    R = {"<cmd>Telescope lsp_references<cr>", "Rename" },
+
     I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
     j = {
       "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>",

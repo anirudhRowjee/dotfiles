@@ -280,12 +280,6 @@ _G.packer_plugins = {
     path = "/home/anirudh/.local/share/nvim/site/pack/packer/start/nvim-notify",
     url = "https://github.com/rcarriga/nvim-notify"
   },
-  ["nvim-spotify"] = {
-    config = { "\27LJ\2\n‘\1\0\0\4\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\1\2\0005\3\3\0B\1\2\1K\0\1\0\1\0\1\18refresh_tokenà\1AQCY8v8ivGHPmEQen0NVbFz_N21Lc_5qHNZbVOOERfFuqD8ekNXxVoKT31qnxCvDPbh_uoKFV2a33Uexc2v5JCCL_qpD6UQm6WbnxjJisNuwMLBZoXfQCQQfbS8UcWGolY8\nsetup\17nvim-spotify\frequire\0" },
-    loaded = true,
-    path = "/home/anirudh/.local/share/nvim/site/pack/packer/start/nvim-spotify",
-    url = "https://github.com/KadoBOT/nvim-spotify"
-  },
   ["nvim-tree.lua"] = {
     loaded = true,
     path = "/home/anirudh/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
@@ -428,11 +422,6 @@ time([[Defining packer_plugins]], false)
 time([[Config for cinnamon.nvim]], true)
 try_loadstring("\27LJ\2\n6\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\rcinnamon\frequire\0", "config", "cinnamon.nvim")
 time([[Config for cinnamon.nvim]], false)
--- Config for: nvim-spotify
-time([[Config for nvim-spotify]], true)
-try_loadstring("\27LJ\2\n‘\1\0\0\4\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\1\2\0005\3\3\0B\1\2\1K\0\1\0\1\0\1\18refresh_tokenà\1AQCY8v8ivGHPmEQen0NVbFz_N21Lc_5qHNZbVOOERfFuqD8ekNXxVoKT31qnxCvDPbh_uoKFV2a33Uexc2v5JCCL_qpD6UQm6WbnxjJisNuwMLBZoXfQCQQfbS8UcWGolY8\nsetup\17nvim-spotify\frequire\0", "config", "nvim-spotify")
-time([[Config for nvim-spotify]], false)
-if should_profile then save_profiles() end
 
 end)
 

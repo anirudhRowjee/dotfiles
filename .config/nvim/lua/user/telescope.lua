@@ -91,6 +91,7 @@ telescope.setup {
     --   extension_config_key = value,
     -- }
     -- please take a look at the readme of the ext
+    keep_insert = true,
     fzf_writer = {
         minimum_grep_characters = 2,
         minimum_files_characters = 2,
@@ -109,4 +110,5 @@ telescope.setup {
   },
 }
 
+require('telescope').load_extension("workspaces")
 require('telescope').load_extension('fzf')

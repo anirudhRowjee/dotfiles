@@ -26,7 +26,7 @@ require "user.colorscheme"                  -- colors! woohoo!
 
 -- Plugin-Specific Config
 require "user.cmp"                          -- config for completion!
-require "user.lsp"                          -- TODO LSP Config 
+require "user.lsp"                          -- TODO LSP Config
 require "user.statusline"                   -- nice colorful statusline
 require "user.treesitter"                   -- Get that sweet syntax highlighting
 require "user.autopairs"                    -- no more right bracket

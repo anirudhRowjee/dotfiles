@@ -1,8 +1,23 @@
 require('rust-tools').setup({})             -- TODO get doc comment highlighting working and type hints working
 require('colorizer').setup({})              -- know your colors
 require("flutter-tools").setup{} -- use defaults
-require'lsp_extensions'.inlay_hints{ prefix = '  λ  ', highlight =  "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
+-- require'lsp_extensions'.inlay_hints{ prefix = '  λ  ', highlight =  "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
 require('toggletasks').setup{}
+
+-- this is the sessions setup
+require("sessions").setup({
+    events = { "VimLeavePre" },
+    session_filepath = ".nvim/session",
+})
+-- This is the workspace setup
+require("workspaces").setup({
+    hooks = {
+        open = function()
+          require("sessions").load(nil, { silent = true })
+        end,
+    }
+})
+
 
 require("notify").setup({
 
@@ -113,5 +128,12 @@ autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs 
 
 " terminal escape
 tnoremap <Esc> <C-\><C-n>
+set laststatus=3
+
+autocmd! User GoyoEnter set signcolumn=no
+autocmd! User GoyoEnter Limelight
+
+autocmd! User GoyoLeave set signcolumn=yes
+autocmd! User GoyoLeave Limelight!
 ]]
 
