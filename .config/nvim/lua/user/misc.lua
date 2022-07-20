@@ -118,6 +118,7 @@ hi link math Statement
 function! WriteMode()
     set background=light
     set cursorline!
+    set signcolumn=no
     set wrap
     Goyo
 endfunction

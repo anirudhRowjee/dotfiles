@@ -42,6 +42,19 @@ require("gruvbox").setup({
   }
 })
 
+local catppuccin = require("catppuccin")
+catppuccin.setup({
+    styles = {
+        comments = {"italic"},
+        strings = {"italic"},
+    },
+    integrations = {
+        lsp_trouble = true,
+        gitgutter = true,
+    },
+})
+vim.g.catppuccin_flavour = "mocha"
+
 -- -- Example config in Lua
 -- require("onedark").setup({
 --
@@ -64,7 +77,6 @@ require("gruvbox").setup({
 --         -- fg0 = "#0D1117",
 --         -- bg1 = "#0D1117",
 --     },
--- 
 --   -- Overwrite the highlight groups
 --   overrides = function(c)
 --     return {
@@ -77,7 +89,6 @@ require("gruvbox").setup({
 -- })
 
 vim.cmd [[
-    colo gruvbox
     hi clear SignColumn
     hi clear LineNr
     set cursorlineopt=number
@@ -86,4 +97,5 @@ vim.cmd [[
     hi LineNrAbove NONE 
     hi LineNrAbove NONE
     hi CursorLineNr guifg=Cyan guibg=NONE
+    colo catppuccin
 ]]
