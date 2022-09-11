@@ -277,6 +277,9 @@ alias pr="pkill picom && picom -b && picom -b"
 alias wall="ranger ~/Pictures/wallpapers"
 alias p='tms && tmux attach'
 alias sw='feh --bg-fill ~/Pictures/wallpapers/$(ls ~/Pictures/wallpapers/ | shuf -n 1)'
+alias e='emacsclient -nw'
 # export WAYLAND_DISPLAY="wayland-1"
+export KUBECONFIG=/home/anirudh/kubeconfig.yaml
 
 greet
+export KUBECONFIG=/home/anirudh/o7-genesis-kubeconfig.yaml

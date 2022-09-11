@@ -32,7 +32,7 @@ font pango:DejaVu Sans Mono Nerd Font 8
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec alacritty -e tmux
+bindsym $mod+Return exec gnome-terminal -e tmux
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -195,13 +195,13 @@ for_window [title="Shutdown options"] floating enable
 bar {
     status_command i3status-rs ~/.config/i3status-rust/config.toml
 	# strip_workspace_numbers yes
-    position bottom
+    position top
     font pango:Iosevka Term 8, FontAwesome 8
     tray_output primary
     binding_mode_indicator yes
     colors {
         separator #666666
-        background #00000011
+        background #000000
         statusline #dddddd
         focused_workspace #0088CC #0088CC #ffffff
         active_workspace #333333 #333333 #ffffff
@@ -230,8 +230,8 @@ for_window [class="floating"] border pixel 1
 for_window [title="video0 - mpv"] floating enable
 for_window [title="video0 - mpv"] sticky enable
 
-# exec_always --no-startup-id feh  --bg-fill ~/Pictures/wallpapers/light-travels-2560×1440.jpg
-exec_always "feh --bg-fill ~/Pictures/wallpapers/$(ls ~/Pictures/wallpapers/ | shuf -n 1)"
+exec_always --no-startup-id feh  --bg-fill ~/Pictures/wallpapers/tarantula-nebula-james-webb-telescope-3840×2160.jpg
+# exec_always "feh --bg-fill ~/Pictures/wallpapers/$(ls ~/Pictures/wallpapers/ | shuf -n 1)"
 exec_always --no-startup-id i3-workspace-names-daemon
 # exec_always --no-startup-id pkill compton && compton
 
@@ -300,7 +300,7 @@ title_align center
 exec_always xset s off
 
 # Open Logseq
-exec "~/Logseq-linux-x64-0.6.9.AppImage"
+# exec alacritty -e tmux
 
 # exec_always "~/.config/polybar/forest/launch.sh"
 # exec_always "~/scripts/fix_60fps.sh"
