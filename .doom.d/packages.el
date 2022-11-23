@@ -45,15 +45,10 @@
 ;; release. The `unpin!' macro allows you to unpin single packages...
 ;(unpin! pinned-package)
 ;; ...or multiple packages
-;(unpin! pInned-package another-pinned-package)
+;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
-(straight-use-package 'tree-sitter)
-(straight-use-package 'tree-sitter-langs)
-(straight-use-package 'lsp-ui)
-(straight-use-package 'consult-lsp)
-;; (straight-use-package 'sublime-themes)
 
-(require 'tree-sitter)
-(require 'tree-sitter-langs)
-
+(package! tree-sitter)
+(package! tree-sitter-langs)
+(package! modus-themes)
